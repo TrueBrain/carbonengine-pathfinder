@@ -1,0 +1,24 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <!-- These are standard macros that we define for property sheets etc in C++ -->
+        <!-- We base the path off the location of this file, which is known -->
+        <CcpBranchPath>$(MSBuildProjectDirectory)\..\..\..</CcpBranchPath>
+        <CcpSharedToolsPath>$(CcpBranchPath)\..\..\..\shared_tools</CcpSharedToolsPath>
+        <CcpSdkPath>$(CcpBranchPath)\..\..\..\sdk</CcpSdkPath>
+
+        <PythonPath>$(CcpSharedToolsPath)\python\27\python.exe</PythonPath>
+        <PythonTask>$(CcpBranchPath)\carbon\tools\staticData\PythonTask.dll</PythonTask>
+
+    </PropertyGroup>
+
+    <UsingTask TaskName="PythonTask.PythonTask" AssemblyFile="$(PythonTask)"/>
+
+    <Target Name="Build">
+        <PythonTask ExePath="$(PythonPath)" Sources="" Arguments="..\..\..\carbon\tools\cythonCompiler\compile.py $(MSBuildProjectDirectory)"/>
+    </Target>
+
+    <Target Name="Rebuild">
+        <PythonTask ExePath="$(PythonPath)" Sources="" Arguments="..\..\..\carbon\tools\cythonCompiler\compile.py $(MSBuildProjectDirectory)"/>
+    </Target>   
+</Project>

@@ -1,0 +1,15 @@
+includeDirectories:
+    - "$projectDirectory$"
+
+runtimeLanguages:
+    - python_26
+    - python_27
+    - exefile
+
+platforms:
+    - win32
+    - x64
+
+targets:
+    - Release
+    - Debug
