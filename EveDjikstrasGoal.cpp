@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "EveDjikstrasGoal.h"
 #include "EveMapNodes.h"
 #include "EveMap.h"

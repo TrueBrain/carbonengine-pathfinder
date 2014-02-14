@@ -4,7 +4,9 @@
 
 #include "EveMapNodes.h"
 #include <vector>
+#include <hash_map>
 
+BLUE_DECLARE( EveMap );
 
 // -------------------------------------------------------------
 // Description:
@@ -19,29 +21,33 @@
 // SeeAlso:
 //   EveMapNode
 // -------------------------------------------------------------
-class EveMap
+BLUE_CLASS( EveMap ):
+	public IRoot
 {
 public:
+	EXPOSE_TO_BLUE();
 	typedef std::vector<EveMapNode> MapNodeVectorType;
 
-	EveMap( unsigned nodeCount, unsigned jumpCount );
+	EveMap();
 
 	// Create a region. Optionally initialize a given outNode with the new EveMapNodeID
-	bool CreateRegion( unsigned regionID, EveMapNodeID* outNode = NULL );
+	Be::Result<PRESULT> CreateRegion( unsigned regionID );
+
+	void AddLastEveMapNodeIDToLookup( unsigned itemID );
 
 	// Create a constellation. Optionally initialize a given outNode with the new EveMapNodeID
-	bool CreateConstellation( unsigned constellationID, unsigned int regionID, EveMapNodeID* outNode = NULL );
+	Be::Result<PRESULT> CreateConstellation( unsigned constellationID, unsigned int regionID );
 
 	// Create a solar system. Optionally initialize a given outNode with the new EveMapNodeID
-	bool CreateSystem( unsigned solarSystemID, unsigned constellationID, float security, EveMapNodeID* outNode = NULL );
+	Be::Result<PRESULT> CreateSystem( unsigned solarSystemID, unsigned constellationID, float security );
 
 	// Add a jump from one system to another.
 	// A more efficient overload using EveMapNodes is available that doesn't have to look up
 	// the systems
-	bool AddJump( unsigned fromSystemID, unsigned toSystemID, unsigned jumpGateID );
+	//bool AddJump( unsigned fromSystemID, unsigned toSystemID, unsigned jumpGateID );
 
 	// This is the more efficient way to add jumps using EveMapNodeIDs
-	bool AddJump( EveMapNodeID fromID, EveMapNodeID toID, unsigned jumpGateID );
+	Be::Result<PRESULT> AddJump( unsigned fromID, unsigned toID, unsigned jumpGateID );
 
 	// Gets an EveMapNodeID from a constellation itemID
 	bool GetConstellationID( unsigned constellationID, EveMapNodeID& constellation ) const;
@@ -59,9 +65,6 @@ public:
 
 	// Get the EveMapNode for a particular GetRegion
 	EveMapNode const * GetRegion( EveMapNodeID solarSystemID ) const;
-
-	// Cython, fucking me over.
-	EveMapNode* GetSolarSystem2( EveMapNodeID solarSystemID );
 
 	// Calculate packing for the closed list of solar systems
 	void FinalizeMap();
@@ -83,8 +86,13 @@ private:
 	// Storage for the jumps for solar systems
 	std::vector<EveSolarSystemJump> m_jumps;
 
+	// only for use on public facing functions
+	std::hash_map<unsigned,EveMapNodeID> m_itemIDToNodeID;
+
 	// used for deciding the size of the closed list
 	unsigned int m_systemCount;
 };
+
+TYPEDEF_BLUECLASS( EveMap );
 
 #endif

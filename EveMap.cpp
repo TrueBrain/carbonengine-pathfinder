@@ -1,10 +1,9 @@
+#include "stdafx.h"
 #include "EveMap.h"
 
-EveMap::EveMap( unsigned nodeCount, unsigned jumpCount ):
+EveMap::EveMap():
 	m_systemCount( 0 )
 {
-	m_nodes.reserve( nodeCount );
-	m_jumps.reserve( jumpCount );
 }
 
 // -------------------------------------------------------------
@@ -13,26 +12,21 @@ EveMap::EveMap( unsigned nodeCount, unsigned jumpCount ):
 //	 children constellations or solar systems.
 // Arguments:
 //   regionID - itemID of the region
-//	 outNode - an optional pointer to an EveMapNodeID to initialize for the created region, or NULL
 // Return Value:
 //   Success or failure
 // -------------------------------------------------------------
-bool EveMap::CreateRegion( unsigned regionID, EveMapNodeID* outNode )
+Be::Result<PRESULT> EveMap::CreateRegion( unsigned regionID )
 {
 	EveMapNode newNode;
 
 	newNode.m_itemID = regionID;
 	newNode.m_jumpCount = 0;
 	newNode.m_type = EveMapNode::REGION;
-
 	m_nodes.push_back( newNode );
+	
+	AddLastEveMapNodeIDToLookup(regionID);
 
-	if( outNode )
-	{
-		outNode->m_mapNodeOffset = m_nodes.size() - 1;
-	}
-
-	return true;
+	return Be::Result<PRESULT>( PRESULT_OK );
 }
 
 // -------------------------------------------------------------
@@ -42,11 +36,10 @@ bool EveMap::CreateRegion( unsigned regionID, EveMapNodeID* outNode )
 // Arguments:
 //   constellationID - itemID of the constellation
 //	 regionID - the itemID of the parent region. This must already have been created.
-//	 outNode - an optional pointer to an EveMapNodeID to initialize for the created constellation, or NULL
 // Return Value:
 //   Success or failure
 // -------------------------------------------------------------
-bool EveMap::CreateConstellation( unsigned constellationID, unsigned int regionID, EveMapNodeID* outNode )
+Be::Result<PRESULT> EveMap::CreateConstellation( unsigned constellationID, unsigned int regionID )
 {
 	EveMapNode newNode;
 
@@ -58,19 +51,16 @@ bool EveMap::CreateConstellation( unsigned constellationID, unsigned int regionI
 
 	if( !GetNodeID( regionID, parent ) )
 	{
-		return false;
+		return Be::Result<PRESULT>( PRESULT_INVALID_ID );
 	}
 
 	newNode.m_parent = parent;
 
 	m_nodes.push_back( newNode );
 
-	if( outNode )
-	{
-		outNode->m_mapNodeOffset = m_nodes.size() - 1;
-	}
+	AddLastEveMapNodeIDToLookup(constellationID);
 
-	return true;
+	return Be::Result<PRESULT>( PRESULT_OK );
 }
 
 // -------------------------------------------------------------
@@ -79,11 +69,10 @@ bool EveMap::CreateConstellation( unsigned constellationID, unsigned int regionI
 // Arguments:
 //   solarSystemID - itemID of the solar system
 //	 constellationID - the itemID of the parent constellation. This must already have been created.
-//	 outNode - an optional pointer to an EveMapNodeID to initialize for the created system, or NULL
 // Return Value:
 //   Success or failure
 // -------------------------------------------------------------
-bool EveMap::CreateSystem( unsigned solarSystemID, unsigned constellationID, float security, EveMapNodeID* outNode )
+Be::Result<PRESULT> EveMap::CreateSystem( unsigned solarSystemID, unsigned constellationID, float security )
 {
 	EveMapNode newNode;
 
@@ -95,44 +84,14 @@ bool EveMap::CreateSystem( unsigned solarSystemID, unsigned constellationID, flo
 
 	if( !GetConstellationID( constellationID, newNode.m_parent ) )
 	{
-		return false;
+		return Be::Result<PRESULT>( PRESULT_INVALID_ID );
 	}
 
 	m_nodes.push_back( newNode );
 
-	if( outNode )
-	{
-		outNode->m_mapNodeOffset = m_nodes.size() - 1;
-	}
-
-	return true;
-}
-
-// -------------------------------------------------------------
-// Description:
-//   Add a jump from one solarsystem to another. This version is not
-//   as efficient as specifying the systems using EveMapNodeIDs
-// Arguments:
-//   solarSystemID - itemID of the solar system to jump from
-//	 toSystemID - itemID of the solar system to jump to
-//	 jumpGateID - the itemID of the jumpgate
-// Return Value:
-//   Success or failure
-// -------------------------------------------------------------
-bool EveMap::AddJump( unsigned fromSystemID, unsigned toSystemID, unsigned jumpGateID )
-{
-	EveMapNodeID fromSystem, toSystem;
-
-	if( !GetSolarSystemID( fromSystemID, fromSystem ) )
-	{
-		return false;
-	}
-	if( !GetSolarSystemID( toSystemID, toSystem ) )
-	{
-		return false;
-	}
-
-	return AddJump( fromSystem, toSystem, jumpGateID );
+	AddLastEveMapNodeIDToLookup(solarSystemID);
+	
+	return Be::Result<PRESULT>( PRESULT_OK );
 }
 
 // -------------------------------------------------------------
@@ -145,29 +104,35 @@ bool EveMap::AddJump( unsigned fromSystemID, unsigned toSystemID, unsigned jumpG
 // Return Value:
 //   Success or failure
 // -------------------------------------------------------------
-bool EveMap::AddJump( EveMapNodeID fromID, EveMapNodeID toID, unsigned jumpGateID )
+Be::Result<PRESULT> EveMap::AddJump( unsigned fromID, unsigned toID, unsigned jumpGateID )
 {
-	EveMapNode& from = m_nodes[fromID.m_mapNodeOffset];
+	EveMapNodeID fromNodeID;
+	CHECK_RETURN_GET_SYSTEM( GetSolarSystemID(fromID, fromNodeID) );
+
+	EveMapNodeID toNodeID;
+	CHECK_RETURN_GET_SYSTEM( GetSolarSystemID(toID, toNodeID) );
+
+	EveMapNode& from = m_nodes[fromNodeID.m_mapNodeOffset];
 
 	if( from.m_jumpCount == 0 )
 	{
 		// no jumps yet
 		EveSolarSystemJump newJump;
 		newJump.m_starGateItemID = jumpGateID;
-		newJump.m_toSystemID = toID;
+		newJump.m_toSystemID = toNodeID;
 
 		m_jumps.push_back( newJump );
 		from.m_jumpsOffset = m_jumps.size() - 1;
 		from.m_jumpCount = 1;
 
-		return true;
+		return Be::Result<PRESULT>( PRESULT_OK );
 	}
 	else
 	{
 		// Not so efficient, unless the jumps for a system are all added in one block!
 		EveSolarSystemJump newJump;
 		newJump.m_starGateItemID = jumpGateID;
-		newJump.m_toSystemID = toID;
+		newJump.m_toSystemID = toNodeID;
 
 		// insert at the back of the current list of jumps for this system
 		// Ideally, this is at the end of the jumps list
@@ -183,7 +148,7 @@ bool EveMap::AddJump( EveMapNodeID fromID, EveMapNodeID toID, unsigned jumpGateI
 			}
 		}
 
-		return true;
+		return Be::Result<PRESULT>( PRESULT_OK );
 	}
 }
 
@@ -198,16 +163,14 @@ bool EveMap::AddJump( EveMapNodeID fromID, EveMapNodeID toID, unsigned jumpGateI
 // -------------------------------------------------------------
 bool EveMap::GetNodeID( unsigned itemID, EveMapNodeID& outNode ) const
 {
-	// TODO: This is the least efficient possible implementation!
-	std::vector<EveMapNode>::const_iterator i = m_nodes.begin();
-	for(; i != m_nodes.end(); ++i )
+	std::hash_map<unsigned,EveMapNodeID>::const_iterator i = m_itemIDToNodeID.find(itemID);
+
+	if( i != m_itemIDToNodeID.end() )
 	{
-		if( i->m_itemID == itemID )
-		{
-			outNode.m_mapNodeOffset = i - m_nodes.begin();
-			return true;
-		}
+		outNode = i->second;
+		return true;
 	}
+
 	return false;
 }
 
@@ -354,7 +317,9 @@ bool EveMap::GetJumpsForSystem( EveMapNodeID systemID, std::vector<EveSolarSyste
 	return false;
 }
 
-EveMapNode* EveMap::GetSolarSystem2( EveMapNodeID solarSystemID )
+void EveMap::AddLastEveMapNodeIDToLookup( unsigned itemID )
 {
-	return &m_nodes[ solarSystemID.m_mapNodeOffset ];
+	EveMapNodeID last;
+	last.m_mapNodeOffset = m_nodes.size() - 1;
+	m_itemIDToNodeID.insert( std::make_pair(itemID, last));
 }

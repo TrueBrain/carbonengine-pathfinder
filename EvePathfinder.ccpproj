@@ -1,0 +1,63 @@
+# These are the SDKs that are used by all configurations
+Imports:
+- ../../../carbon/src/core_project.yaml
+- ../../../carbon/src/BlueExposure/uses_BlueExposureStatic.yaml
+
+# Settings from the General section, for all configurations
+General:
+  ConfigurationType: DynamicLibrary
+  UseOfMfc: false
+  TargetExt: .pyd
+
+ClCompile:
+  WarningLevel: Level3
+  TreatWarningAsError: true
+  BufferSecurityCheck: false
+  PrecompiledHeader: Use
+  PrecompiledHeaderFile: stdafx.h
+  PrecompiledHeaderOutputFile: $(IntDir)$(TargetName).pch
+  PreprocessorDefinitions:
+  - UNICODE
+  - _UNICODE
+  - BLUE_DLL_NAME=pyEvePathfinder
+
+Link:
+  GenerateDebugInformation: true
+  ProgramDatabaseFile: $(TargetDir)$(TargetName).pdb
+  AdditionalLibraryDirectories:
+  - ..\..\..\carbon\autobuild\blue\python_27\$(Platform)
+  
+Configurations:
+  Release_27|Win32,x64:
+    Imports:
+    - ../../../../../../sdk/Python/Python_2.7.yaml
+    General:
+      OutDir: ..\..\autobuild\pyEvePathfinder\python_27\$(Platform)\
+      TargetName: pyEvePathfinder
+      TargetExt: .pyd
+
+  Debug|Win32,x64:
+    Imports:
+    - ../../../carbon/src/stackless/stackless.yaml
+    General: 
+      OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
+      TargetName: pyEvePathfinder_d
+      LinkIncremental: true
+    ClCompile:
+      PreprocessorDefinitions:
+      - _DEBUG
+      Optimization: Disabled
+      RuntimeLibrary: MultiThreadedDebugDLL
+      DebugInformationFormat: EditAndContinue
+    Link:
+      AdditionalDependencies:
+      - msvcrtd.lib
+      - msvcprtd.lib
+      - atlsd.lib
+
+  Release|Win32,x64:
+    Imports:
+    - ../../../carbon/src/stackless/stackless.yaml
+    General:
+      OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
+      TargetName: pyEvePathfinder

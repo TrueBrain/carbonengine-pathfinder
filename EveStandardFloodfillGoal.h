@@ -7,6 +7,8 @@
 #include <vector>
 #include <set>
 
+BLUE_DECLARE(EveStandardFloodFillGoal);
+
 // -------------------------------------------------------------
 // Description:
 //   EveStandardFloodFillGoal represents the standard path-finding behavior
@@ -25,10 +27,12 @@
 // SeeAlso:
 //   IEvePathfinderGoal
 // -------------------------------------------------------------
-class EveStandardFloodFillGoal:
+BLUE_CLASS(EveStandardFloodFillGoal):
 	public IEvePathfinderGoal
 {
 public:
+	EXPOSE_TO_BLUE();
+
 	EveStandardFloodFillGoal();
 
 	//////////////////////////////////////////////////////////////////////////
@@ -51,21 +55,24 @@ public:
 	void IgnoreSecurityLimits();
 
 	// Can start from multiple systems
-	void AddOrigin( EveMapNodeID origin );
+	Be::Result<PRESULT> AddOrigin( const EveMap* map, unsigned originID );
 
 	// clear the origin systems
 	void ClearOrigins();
 
 	// Prevent the pathfinder from going through this system
-	void AddAvoidSystem( EveMapNodeID s );
+	Be::Result<PRESULT> AddAvoidSystem( const EveMap* map, unsigned systemID );
 	void ClearAvoidSystems();
+
+	// We can have goal systems. These do not cause the path-finding to terminate
+	Be::Result<PRESULT> AddGoalSystem( const EveMap* map, unsigned goalID );
+	void ClearGoalSystems();
 
 private:
 
 	std::vector<EveMapNodeID> m_originSystems;
-
-	// TODO: Set of "avoidance" systems
 	std::set<EveMapNodeID> m_avoidSystems;
+	std::set<EveMapNodeID> m_goalSystems;
 
 	enum {
 		PATHFINDING_BEHAVIOUR_NONE,
@@ -86,5 +93,7 @@ private:
 	float m_securityPenalty;
 
 };
+
+TYPEDEF_BLUECLASS(EveStandardFloodFillGoal);
 
 #endif

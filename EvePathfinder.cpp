@@ -1,94 +1,38 @@
 #include "stdafx.h"
+#include "BlueExposure/include/InterfaceDefinitions.cxx"
+#include <functional>
+
+BLUE_REGISTER_GLOBAL_AS_MODULE_OBJECT( "classes", BeClasses );
+BLUE_STANDARD_MODULE_INIT( pyEvePathfinder );
 
 #include <memory>
-
 #include "EvePathfinder.h"
 #include "EveMapPathfinderCache.h"
 #include "include/IEvePathfinderGoal.h"
+#include "EveMap.h"
 
 typedef EveMapNode const * const constEveMapNodePtr;
 
-#ifdef MSVC_LOCAL_TEST
-#include "EveMap.h"
-#include "EveFloodFillGoal.h"
-#include "EveDjikstrasGoal.h"
-
-int main(void)
+void RunPathfinder( const EveMap* universeMap, const IEvePathfinderGoal* goal, EveMapPathfinderCache* cache )
 {
-	// BASIC INIT
-	EveMap* universe = new EveMap( 7, 7 );
-	EveDjikstrasGoal* goal = new EveDjikstrasGoal();
-	EveMapPathfinderCache* cache = new EveMapPathfinderCache();
+	if( universeMap == nullptr || goal == nullptr || cache == nullptr )
+	{
+		return;
+	}
 
-	unsigned int i = 0;
-
-	// Init map
-	universe->CreateRegion( i++ );
-	universe->CreateConstellation( i, i-1 );
-	i++;
-
-	EveMapNodeID A,B,C,D,E;
-
-	universe->CreateSystem( i++, 1, 1.0f, &A );
-	universe->CreateSystem( i++, 1, 1.0f, &B );
-	universe->CreateSystem( i++, 1, 1.0f, &C );
-	universe->CreateSystem( i++, 1, 1.0f, &D );
-	universe->CreateSystem( i++, 1, 1.0f, &E );
-
-	universe->AddJump( A, B, i++ );
-	universe->AddJump( B, A, i++ );
-
-	universe->AddJump( B, D, i++ );
-	universe->AddJump( D, B, i++ );
-	
-	universe->AddJump( D, E, i++ );
-	universe->AddJump( E, D, i++ );
-	
-	universe->AddJump( A, C, i++ );
-	universe->AddJump( C, A, i++ );
-	
-	universe->AddJump( C, E, i++ );
-	universe->AddJump( E, C, i++ );
-
-	universe->FinalizeMap();
-
-	// Init cache for use with a map. There may be multiple caches
-	cache->Initialize( *universe, 15 );
-
-	// PER PATHFIND
-
-	// Set origin
-	cache->ClearCache();
-	
-	goal->AddOrigin( A );
-	goal->SetGoal( *universe, C );
-
-	RunPathfinder( *universe, *goal, *cache );
-
-	delete universe;
-	delete goal;
-	delete cache;
-
-	return 0;
-}
-
-#endif
-
-void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, EveMapPathfinderCache& cache )
-{
 	std::vector<EveMapNodeID> neighbours;
 	neighbours.reserve(5);
 
 	std::vector<EveMapNodeID> origins;
-	goal.GetOriginSystems( origins );
+	goal->GetOriginSystems( origins );
 
 	// Add all origin systems
 	for( std::vector<EveMapNodeID>::iterator originIt = origins.begin(); originIt !=  origins.end(); ++originIt )
 	{
-		constEveMapNodePtr o = universeMap.GetSolarSystem( *originIt );
-		ClosedListNode& originInClosedList = cache.GetCurrentPath( o->m_closedListID );
+		constEveMapNodePtr o = universeMap->GetSolarSystem( *originIt );
+		ClosedListNode& originInClosedList = cache->GetCurrentPath( o->m_closedListID );
 
-		originInClosedList.m_isOrigin = true;
+		originInClosedList.m_jumpCountFromOrigin = 0;
 		originInClosedList.m_visited = true;
 		originInClosedList.m_mapNodeID = *originIt;
 	}
@@ -96,34 +40,38 @@ void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, E
 	// Populate open list with the neighbours of the origin systems.
 	for( std::vector<EveMapNodeID>::iterator originIt = origins.begin(); originIt !=  origins.end(); ++originIt )
 	{
-		constEveMapNodePtr originSystem = universeMap.GetSolarSystem( *originIt );
+		constEveMapNodePtr originSystem = universeMap->GetSolarSystem( *originIt );
 		EveMapNodeID origin = *originIt;
+		ClosedListNode& originPath = cache->GetCurrentPath( originSystem->m_closedListID );
 
 		if( originSystem )
 		{
-			goal.GetNeighbours( universeMap, origin, neighbours );
+			goal->GetNeighbours( *universeMap, origin, neighbours );
 
 			for( std::vector<EveMapNodeID>::iterator neighbourIt = neighbours.begin(); neighbourIt != neighbours.end(); ++neighbourIt )
 			{
-				constEveMapNodePtr candidateSystem = universeMap.GetSolarSystem( *neighbourIt );
-
-				if( !cache.GetCurrentPath( candidateSystem->m_closedListID ).m_isOrigin )
+				constEveMapNodePtr candidateSystem = universeMap->GetSolarSystem( *neighbourIt );
+				ClosedListNode& candidatePath = cache->GetCurrentPath( candidateSystem->m_closedListID );
+				
+				if( candidatePath.m_jumpCountFromOrigin != 0 )
 				{
-					cache.AddCandidate( 
+					cache->AddCandidate( 
 						*neighbourIt, 
 						*originIt, 
-						goal.GetTraversalCost( *originSystem,*candidateSystem ), 
-						goal.GetHeuristicEstimate(*candidateSystem) );
+						goal->GetTraversalCost( *originSystem,*candidateSystem ), 
+						goal->GetHeuristicEstimate(*candidateSystem),
+						originPath,
+						candidatePath);
 				}
 			}
 		}
 	}
 
 	// While there are still candidates in the cache
-	while( !cache.IsComplete() && !cache.AreAllOptionsExhausted() )
+	while( !cache->IsComplete() && !cache->AreAllOptionsExhausted() )
 	{
 		// delete when done
-		std::auto_ptr<const OpenListNode> candidate( cache.GetBestCandidate() );
+		std::auto_ptr<const OpenListNode> candidate( cache->GetBestCandidate() );
 
 		if( !candidate.get() )
 		{
@@ -131,7 +79,7 @@ void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, E
 		}
 
 		EveMapNodeID candidateSystemID = candidate->m_toNode;
-		constEveMapNodePtr candidateSystemNode = universeMap.GetSolarSystem( candidateSystemID );
+		constEveMapNodePtr candidateSystemNode = universeMap->GetSolarSystem( candidateSystemID );
 
 		if( !candidateSystemNode )
 		{
@@ -139,9 +87,9 @@ void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, E
 		}
 
 		// Find the current path to the given node
-		ClosedListNode& currentPath = cache.GetCurrentPath( candidateSystemNode->m_closedListID );
+		ClosedListNode& currentPath = cache->GetCurrentPath( candidateSystemNode->m_closedListID );
 
-		if( currentPath.m_isOrigin )
+		if( currentPath.m_jumpCountFromOrigin == 0 )
 		{
 			// No point in revisiting an origin node
 			continue;
@@ -154,17 +102,17 @@ void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, E
 
 		// Either the new path is shorter, or we haven't visited the node before
 		// Set it into the closed list
-		cache.SetPathToSystem( universeMap, candidateSystemID, candidate->m_fromNode, candidate->m_costToNodeFromOrigin );
+		cache->SetPathToSystem( *universeMap, candidateSystemID, candidate->m_fromNode, candidate->m_costToNodeFromOrigin );
 
-		if( goal.IsGoal( universeMap, candidateSystemID ) )
+		if( goal->IsGoal( *universeMap, candidateSystemID ) )
 		{
 			// We are done
-			cache.SetSolutionSystem( universeMap, candidateSystemID );
+			cache->SetSolutionSystem( *universeMap, candidateSystemID );
 			return;
 		}
 
 		// Now we explore the neighbours and add them to the open list
-		goal.GetNeighbours( universeMap, candidateSystemID, neighbours );
+		goal->GetNeighbours( *universeMap, candidateSystemID, neighbours );
 
 		for( std::vector<EveMapNodeID>::iterator neighbourIt = neighbours.begin(); neighbourIt != neighbours.end(); ++neighbourIt )
 		{
@@ -177,20 +125,27 @@ void RunPathfinder( const EveMap& universeMap, const IEvePathfinderGoal& goal, E
 			}
 
 			// Generate new open list candidates
-			constEveMapNodePtr neighbour = universeMap.GetSolarSystem( neighbourID );
-
+			constEveMapNodePtr neighbour = universeMap->GetSolarSystem( neighbourID );
+			
 			if( !neighbour )
 			{
 				continue;
 			}
+						
+			// Find the current path to the given node
+			ClosedListNode& neighbourPath = cache->GetCurrentPath( neighbour->m_closedListID );
 
-			cache.AddCandidate( 
+			cache->AddCandidate( 
 				neighbourID, 
 				candidate->m_toNode, 
-				candidate->m_costToNodeFromOrigin + goal.GetTraversalCost( *candidateSystemNode, *neighbour ),
-				goal.GetHeuristicEstimate( *neighbour ) );
+				candidate->m_costToNodeFromOrigin + goal->GetTraversalCost( *candidateSystemNode, *neighbour ),
+				goal->GetHeuristicEstimate( *neighbour ),
+				currentPath,
+				neighbourPath
+			);
 		}
-
 	}
-
 }
+
+
+MAP_FUNCTION_AND_WRAP( "FindRoute", RunPathfinder, "TODO: Docstring");

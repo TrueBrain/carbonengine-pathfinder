@@ -25,7 +25,8 @@ struct EveMapNodeID;
 // SeeAlso:
 //   RunPathfinder
 // -------------------------------------------------------------
-class IEvePathfinderGoal
+
+BLUE_INTERFACE( IEvePathfinderGoal ) : public IRoot
 {
 public:
 	

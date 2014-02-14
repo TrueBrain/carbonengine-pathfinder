@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "EveMapPathfinderCache.h"
+#include <algorithm>
+
+bool CompareClosedListNodesByJumpCount( ClosedListNode cln1, ClosedListNode cln2 )
+{
+    return cln1.m_jumpCountFromOrigin < cln2.m_jumpCountFromOrigin;
+}
 
 EveMapPathfinderCache::EveMapPathfinderCache() :
 	m_hasFoundSolution( false ),
-	m_sortedListHeadSize( 15 ),
 	m_maxValueinSortedList( 0.0f )
 {
 
@@ -38,11 +43,11 @@ void EveMapPathfinderCache::ClearCache()
 	for( std::vector<ClosedListNode>::iterator i = m_closedList.begin(); i != m_closedList.end() ;++i )
 	{
 		i->m_visited = false;
-		i->m_isOrigin = false;
+		i->m_jumpCountFromOrigin = -1;
 	}
 }
 
-void EveMapPathfinderCache::AddCandidate( EveMapNodeID node, EveMapNodeID from, float costToNode, float estimate )
+void EveMapPathfinderCache::AddCandidate( EveMapNodeID node, EveMapNodeID from, float costToNode, float estimate, ClosedListNode& origin, ClosedListNode& destination)
 {
 	// TODO: pool?
 	// TODO: don't sort everything, maintain an unsorted list
@@ -52,8 +57,12 @@ void EveMapPathfinderCache::AddCandidate( EveMapNodeID node, EveMapNodeID from, 
 	newNode->m_fromNode = from;
 	newNode->m_costToNodeFromOrigin = costToNode;
 	newNode->m_totalCostEstimate = costToNode + estimate;
-
 	m_sortedOpenList.push( newNode );
+
+	if(destination.m_jumpCountFromOrigin == (unsigned int) -1)
+    {
+		destination.m_jumpCountFromOrigin = origin.m_jumpCountFromOrigin + 1;
+    }
 }
 
 const OpenListNode* EveMapPathfinderCache::GetBestCandidate()
@@ -74,6 +83,7 @@ bool EveMapPathfinderCache::SetPathToSystem( const EveMap& universe, EveMapNodeI
 	ClosedListNode& c = m_closedList[ s->m_closedListID.m_offsetInClosedList ];
 
 	EveMapNode const * const last = universe.GetSolarSystem( fromSystem );
+	ClosedListNode& lastClosedListNode = m_closedList[ last->m_closedListID.m_offsetInClosedList ];
 
 	if( !s || !last )
 	{
@@ -81,7 +91,7 @@ bool EveMapPathfinderCache::SetPathToSystem( const EveMap& universe, EveMapNodeI
 	}
 
 	c.m_costToNode = cost;
-	c.m_isOrigin = false;
+	c.m_jumpCountFromOrigin = lastClosedListNode.m_jumpCountFromOrigin + 1;
 	c.m_lastClosedListNode = last->m_closedListID;
 	c.m_visited = true;
 	c.m_mapNodeID = system;
@@ -90,13 +100,14 @@ bool EveMapPathfinderCache::SetPathToSystem( const EveMap& universe, EveMapNodeI
 }
 
 
-void EveMapPathfinderCache::Initialize( const EveMap& mapData, unsigned int sortedListHeadSize )
+void EveMapPathfinderCache::Initialize( const EveMap* mapData )
 {
-	m_closedList.resize( mapData.GetRequiredClosedListSize() );
+	if( mapData != nullptr )
+	{
+		m_closedList.resize( mapData->GetRequiredClosedListSize() );
 
-	ClearCache();
-
-	m_sortedListHeadSize = sortedListHeadSize;
+		ClearCache();
+	}
 }
 
 EveMapPathfinderCache::~EveMapPathfinderCache()
@@ -124,8 +135,112 @@ void EveMapPathfinderCache::SetSolutionSystem( const EveMap& universe, EveMapNod
 
 }
 
-EveMapNodeID EveMapPathfinderCache::GetSolutionSystemID()
+Be::Result<PRESULT> EveMapPathfinderCache::GetSolutionSystem( const EveMap* map, unsigned& result )
 {
-	return m_closedList[ m_solution.m_offsetInClosedList ].m_mapNodeID;
+	CHECK_RETURN_MAP( map );
+
+	if( !m_hasFoundSolution )
+	{
+		return Be::Result<PRESULT>( PRESULT_NO_SOLUTION_FOUND );
+	}
+
+	const EveMapNodeID solution = m_closedList[ m_solution.m_offsetInClosedList ].m_mapNodeID;
+
+	result = map->GetSolarSystem(solution)->m_itemID;
+	return Be::Result<PRESULT>();
 }
 
+Be::Result<PRESULT> EveMapPathfinderCache::GetSystemsWithinJumpCount( 
+	const EveMap* mapData, 
+	unsigned int minJumpCount, 
+	unsigned int maxJumpCount, 
+	std::map<unsigned, unsigned>& result )
+{
+    result.clear();
+
+	CHECK_RETURN_MAP( mapData );
+
+    for( std::vector<ClosedListNode>::iterator i = m_closedList.begin(); i != m_closedList.end() ;++i )
+	{
+        if( i->m_jumpCountFromOrigin >= minJumpCount && i->m_jumpCountFromOrigin < maxJumpCount )
+        {
+            result.insert( 
+				std::make_pair( mapData->GetSolarSystem(i->m_mapNodeID)->m_itemID, i->m_jumpCountFromOrigin ) 
+			);
+        }
+	}
+
+	return Be::Result<PRESULT>( PRESULT_OK );
+}
+
+Be::Result<PRESULT> EveMapPathfinderCache::GetRouteTo( const EveMap* mapData, unsigned destinationID, std::vector<unsigned>& solarSystemIDs )
+{
+	CHECK_RETURN_MAP( mapData );
+
+	solarSystemIDs.clear();
+	
+	EveMapNodeID destination;
+	CHECK_RETURN_GET_SYSTEM( mapData->GetSolarSystemID(destinationID, destination) );
+
+	const EveMapNode* sol = mapData->GetSolarSystem(destination);
+	const bool initialIsVisited = m_closedList[sol->m_closedListID.m_offsetInClosedList].m_visited;
+
+	if( !initialIsVisited )
+	{
+		return Be::Result<PRESULT>(  );
+	}
+
+	while( true )
+	{
+		solarSystemIDs.push_back( sol->m_itemID );
+
+		const unsigned currentSolClosedOffset = sol->m_closedListID.m_offsetInClosedList;
+		const ClosedListNode& currentClosed = m_closedList[currentSolClosedOffset];
+
+
+		if( currentClosed.m_jumpCountFromOrigin == 0 )
+		{
+			break;
+		}
+
+		sol = mapData->GetSolarSystem( m_closedList[currentClosed.m_lastClosedListNode.m_offsetInClosedList].m_mapNodeID );
+	}
+
+	// current order is [last, ..., first]
+	std::reverse( solarSystemIDs.begin(), solarSystemIDs.end() );
+
+	return Be::Result<PRESULT>( PRESULT_OK );
+}
+
+Be::Result<PRESULT> EveMapPathfinderCache::GetJumpCountTo( const EveMap* mapData, unsigned destinationID, int& out )
+{
+	CHECK_RETURN_MAP( mapData );
+
+	out = 0;
+	
+	EveMapNodeID destination;
+	CHECK_RETURN_GET_SYSTEM( mapData->GetSolarSystemID(destinationID, destination) );
+
+	const EveMapNode* dest_sol = mapData->GetSolarSystem(destination);
+	const ClosedListNode* currentClosed = &m_closedList[ dest_sol->m_closedListID.m_offsetInClosedList ];
+
+	if( !currentClosed->m_visited )
+	{
+		out = -1;
+		return Be::Result<PRESULT>( PRESULT_OK );
+	}
+
+	while( true )
+	{
+		if( currentClosed->m_jumpCountFromOrigin == 0 )
+		{
+			break;
+		}
+
+		++out;
+		currentClosed = &m_closedList[currentClosed->m_lastClosedListNode.m_offsetInClosedList];
+	}
+
+
+	return Be::Result<PRESULT>( PRESULT_OK );
+}

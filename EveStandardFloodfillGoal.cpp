@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "EveStandardFloodFillGoal.h"
 #include "EveMapNodes.h"
 #include "EveMap.h"
@@ -118,9 +119,14 @@ void EveStandardFloodFillGoal::GetNeighbours( const EveMap& universe, EveMapNode
 	{
 		for( ; i != end; ++i )
 		{
+			// we will not traverse to a system that is set to be avoided, unless it is
+			// also set as a goal
 			if( m_avoidSystems.find(i->m_toSystemID) != m_avoidSystems.end() )
 			{
-				continue;
+				if( m_goalSystems.find(i->m_toSystemID) == m_goalSystems.end() )
+				{
+					continue;
+				}
 			}
 
 			if( m_securityRatingBehaviour == PATHFINDING_BEHAVIOUR_STRICT )
@@ -159,9 +165,22 @@ void EveStandardFloodFillGoal::GetOriginSystems( std::vector<EveMapNodeID>& outO
 // Arguments:
 //   origin - a system that is considered to have a cost of 0.0
 // -------------------------------------------------------------
-void EveStandardFloodFillGoal::AddOrigin( EveMapNodeID origin )
+Be::Result<PRESULT> EveStandardFloodFillGoal::AddOrigin( const EveMap* map, unsigned originID )
 {
-	m_originSystems.push_back( origin );
+	if( map == nullptr )
+	{
+		return Be::Result<PRESULT>( PRESULT_NO_MAP );
+	}
+	EveMapNodeID destination;
+
+	if( !map->GetSolarSystemID( originID, destination ) )
+	{
+		return Be::Result<PRESULT>( PRESULT_INVALID_ID );
+	}
+
+	m_originSystems.push_back( destination );
+
+	return Be::Result<PRESULT>();
 }
 
 // -------------------------------------------------------------
@@ -208,12 +227,34 @@ void EveStandardFloodFillGoal::IgnoreSecurityLimits()
 	m_securityRatingBehaviour = PATHFINDING_BEHAVIOUR_NONE;
 }
 
-void EveStandardFloodFillGoal::AddAvoidSystem( EveMapNodeID s )
+Be::Result<PRESULT> EveStandardFloodFillGoal::AddAvoidSystem( const EveMap* map, unsigned systemID )
 {
-	m_avoidSystems.insert( s );
+	CHECK_RETURN_MAP( map );
+	EveMapNodeID avoidSystem;
+	CHECK_RETURN_GET_SYSTEM( map->GetSolarSystemID(systemID, avoidSystem) );
+
+	m_avoidSystems.insert( avoidSystem );
+
+	return Be::Result<PRESULT>( PRESULT_OK );
 }
 
 void EveStandardFloodFillGoal::ClearAvoidSystems()
 {
 	m_avoidSystems.clear();
+}
+
+Be::Result<PRESULT> EveStandardFloodFillGoal::AddGoalSystem( const EveMap* map, unsigned goalID )
+{
+	CHECK_RETURN_MAP( map );
+	EveMapNodeID goalSystem;
+	CHECK_RETURN_GET_SYSTEM( map->GetSolarSystemID(goalID, goalSystem) );
+
+	m_goalSystems.insert( goalSystem );
+
+	return Be::Result<PRESULT>( PRESULT_OK );
+}
+
+void EveStandardFloodFillGoal::ClearGoalSystems()
+{
+	m_goalSystems.clear();
 }

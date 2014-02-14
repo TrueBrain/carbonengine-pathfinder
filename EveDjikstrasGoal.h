@@ -12,6 +12,8 @@
 #include "include/IEvePathfinderGoal.h"
 #include "EveMapNodes.h"
 
+
+BLUE_DECLARE(EveDjikstrasGoal);
 // -------------------------------------------------------------
 // Description:
 //   This goal implementation defines a goal which uses a fixed cost to
@@ -21,10 +23,12 @@
 // SeeAlso:
 //   IEvePathfinderGoal
 // -------------------------------------------------------------
-class EveDjikstrasGoal:
+BLUE_CLASS( EveDjikstrasGoal ):
 	public IEvePathfinderGoal
 {
 public:
+	EXPOSE_TO_BLUE();
+
 	//////////////////////////////////////////////////////////////////////////
 	// IEvePathfinderGoal 
 	//////////////////////////////////////////////////////////////////////////
@@ -52,5 +56,7 @@ private:
 	// pathfinding from
 	std::vector<EveMapNodeID> m_originSystems;
 };
+
+TYPEDEF_BLUECLASS(EveDjikstrasGoal);
 
 #endif // EveDjikstrasGoal_H

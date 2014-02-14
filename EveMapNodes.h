@@ -40,8 +40,10 @@ struct EveMapClosedListNodeID
 // -------------------------------------------------------------
 struct EveMapNodeID
 {
+public:
+
 	// The offset within the map array
-	unsigned int m_mapNodeOffset;
+	size_t m_mapNodeOffset;
 
 	bool operator==( const EveMapNodeID& other ) const
 	{
@@ -106,7 +108,7 @@ struct EveMapNode
 	unsigned short m_jumpCount;
 
 	// pointer to an array of jumps
-	unsigned int m_jumpsOffset;
+	size_t m_jumpsOffset;
 };
 
 
