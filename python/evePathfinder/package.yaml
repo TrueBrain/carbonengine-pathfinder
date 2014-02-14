@@ -1,0 +1,16 @@
+runtimeOnly:
+    exclude:
+        - build
+        - tools
+        - test
+        - client
+
+clientRuntimeOnly:
+    exclude:
+        - build
+        - tools
+        - test
+        - effects
+        - restricted
+
+dependencies: []
