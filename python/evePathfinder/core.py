@@ -98,7 +98,7 @@ class EvePathfinderCore(object):
         self.newPathfinderGoal = pyEvePathfinder.EveStandardFloodFillGoal()
 
     def CreateCacheEntry(self):
-        log.info("default cache entry called")
+        log.debug("default cache entry called")
         return PathfinderCacheEntry(None, NewPathfinderCache(self.newPathfinderMap))
 
     def _RunNewPathfinderFrom(self, solarSystemID, cache, routeType, penalty, minSec, maxSec, avoidanceSystems, goalSystems):
@@ -142,7 +142,7 @@ class EvePathfinderCore(object):
 
         self.newPathfinderExecutionCount += 1
 
-        log.info('EvePathfinder pathfind done in: %f ms', (time.clock() - start)*1000)
+        log.debug('EvePathfinder pathfind done in: %f ms', (time.clock() - start)*1000)
 
     def GetCachedEntry(self, stateInterface, fromID):
         """
@@ -226,7 +226,7 @@ class EvePathfinderCore(object):
         """
         Returns the shortest path between the given fromID to the given toID (inclusive of both).
         """
-        log.info("GetPathBetween: %s to %s", fromID, toID)
+        log.debug("GetPathBetween: %s to %s", fromID, toID)
         cache = self.GetPathfinderCache(stateInterface, fromID, [toID])
         return cache.GetPathTo(toID)
 
@@ -234,7 +234,7 @@ class EvePathfinderCore(object):
         """
         Returns the jump count between the two ids
         """
-        log.info("GetPathBetween: %s to %s", fromID, toID)
+        log.debug("GetPathBetween: %s to %s", fromID, toID)
         cache = self.GetPathfinderCache(stateInterface, fromID, [toID])
         jumpCount = cache.GetJumpCountTo(toID)
         if jumpCount == -1:

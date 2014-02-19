@@ -98,7 +98,7 @@ class ClientPathfinder(object):
 
         for systemIdWaypoints in listOfSystemIdWaypoints[1:]:
             waypointIndex += 1
-            waypointsWithSystemsAndStations.extend(self._AddDestinationToWaypointListIfNeeded(systemIdWaypoints[1:],
+            waypointsWithSystemsAndStations.extend(self._AddDestinationToWaypointListIfNeeded(systemIdWaypoints,
                                                                                               waypoints[waypointIndex]))
 
         return waypointsWithSystemsAndStations
@@ -132,6 +132,9 @@ class ClientPathfinder(object):
         return self._GetPathBetween(self._autopilotStateInterface, fromID, toID)
 
     def _GetJumpCount(self, stateInterface, fromID, toID):
+        if fromID == toID:
+            # When travelling within the same system (even wormholes) the distance should always be zero
+            return 0
         if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
             return sys.maxint
 

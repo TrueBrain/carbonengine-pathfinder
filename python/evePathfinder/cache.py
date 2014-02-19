@@ -14,7 +14,7 @@ class NewPathfinderCache(object):
     '''
 
     def __init__( self, universeMap ):
-        log.info("Creating New pathfinder cache")
+        log.debug("Creating New pathfinder cache")
         self.internalCache = pyEvePathfinder.EveMapPathfinderCache()
         self.internalCache.Initialize( universeMap )
         self.map = universeMap

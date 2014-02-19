@@ -45,6 +45,18 @@ class ClientPathfinderTestCase(unittest.TestCase):
         self.pathfinderCore.GetPathBetween.assert_has_calls([])
 
     @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
+    def testGetJumpCountSameFromToInKnownSpace(self, isWormholeSystem):
+        isWormholeSystem.side_effect = [False, False]
+        count = self.clientPathfinder.GetJumpCount(self.fromID, self.fromID)
+        self.assertEqual(0, count)
+
+    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
+    def testGetJumpCountSameFromToInWormholeSpace(self, isWormholeSystem):
+        isWormholeSystem.side_effect = [True, True]
+        count = self.clientPathfinder.GetJumpCount(self.fromID, self.fromID)
+        self.assertEqual(0, count)
+
+    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
     def testGetJumpCountInKnownSpace(self, isWormholeSystem):
         isWormholeSystem.side_effect = [False, False]
         self.clientPathfinder.GetJumpCount(self.fromID, self.toID)
@@ -138,7 +150,7 @@ class ClientPathfinderTestCase(unittest.TestCase):
         self.pathfinderCore.GetListOfWaypointPaths.return_value = path
         self.convertStationIDToSolarSystemIDIfNecessaryMethod.side_effect = lambda x: 11 if x == 15 else x
         path = self.clientPathfinder.GetWaypointPath(waypoints)
-        self.assertEqual(path, [5, 3, 10, 4, 11, 15])
+        self.assertEqual([5, 3, 10, 10, 4, 11, 15], path)
 
     @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
     def testWaypointPathRespectsAutopilot(self, isWormholeSystem):
@@ -150,7 +162,7 @@ class ClientPathfinderTestCase(unittest.TestCase):
         self.pathfinderCore.GetListOfWaypointPaths.assert_called_once_with(
             self.stateInterface2, self.fromID, waypoints
         )
-        self.assertEqual(path, [5, 3, 10, 4, 11])
+        self.assertEqual([5, 3, 10, 10, 4, 11], path)
 
 
     def testAddAvoidanceItemsSetsNewValue(self):
