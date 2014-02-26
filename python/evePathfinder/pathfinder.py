@@ -142,7 +142,9 @@ class ClientPathfinder(object):
         return self._GetPathBetween(self._standardStateInterface, fromID, toID)
 
     def GetAutopilotPathBetween(self, fromID, toID):
-        return self._GetPathBetween(self._autopilotStateInterface, fromID, toID)
+        convertedFromID = self.ConvertStationIDToSolarSystemIDIfNecessary(fromID)
+        convertedToID = self.ConvertStationIDToSolarSystemIDIfNecessary(toID)
+        return self._GetPathBetween(self._autopilotStateInterface, convertedFromID, convertedToID)
 
     def _GetJumpCount(self, stateInterface, fromID, toID):
         if fromID == toID:
