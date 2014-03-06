@@ -202,9 +202,6 @@ class EvePathfinderCore(object):
         """
         Returns the number of jumps for multiple pairs of systems
         """
-        # Reduce the number of pathfinds by trying to group by origin system
-        sortedSystemPairs = sorted(solarSystemPairs)
-
         result = {}
         for originID, destinationID in solarSystemPairs:
             result[(originID, destinationID)] = self.GetJumpCountBetween(stateInterface, originID, destinationID)
