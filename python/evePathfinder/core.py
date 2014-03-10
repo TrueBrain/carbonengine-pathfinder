@@ -1,7 +1,5 @@
 import time
-import sys
 import logging
-from copy import copy
 from collections import defaultdict
 
 log = logging.getLogger(__name__)
@@ -35,6 +33,11 @@ class SecurityInterval(object):
     def __init__(self, minSecurity, maxSecurity):
         self.minSecurity = minSecurity
         self.maxSecurity = maxSecurity
+
+
+def IsUnreachableJumpCount(jumpCount):
+    return jumpCount == const.UNREACHABLE_JUMP_COUNT
+
 
 ROUTE_TYPES = {
     const.ROUTE_TYPE_SAFE:            SecurityInterval(0.45, 1.0),
@@ -235,7 +238,7 @@ class EvePathfinderCore(object):
         cache = self.GetPathfinderCache(stateInterface, fromID, [toID])
         jumpCount = cache.GetJumpCountTo(toID)
         if jumpCount == -1:
-            return sys.maxint
+            return const.UNREACHABLE_JUMP_COUNT
         else:
             return jumpCount
 
