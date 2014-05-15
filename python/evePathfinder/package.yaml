@@ -14,3 +14,7 @@ clientRuntimeOnly:
         - restricted
 
 dependencies: []
+
+testing:
+    binaries:
+      - DLL_EVEPATHFINDER
