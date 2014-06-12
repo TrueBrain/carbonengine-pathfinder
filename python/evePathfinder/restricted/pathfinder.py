@@ -37,6 +37,9 @@ class ServerPathfinder(object):
         return self._pathfinderCore.GetPathBetween(tempStateInterface, fromID, toID)
 
     def GetJumpCount(self, fromID, toID):
+        if fromID == toID:
+            return 0
+
         if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
             return sys.maxint
 
