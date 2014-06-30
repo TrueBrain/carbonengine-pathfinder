@@ -147,6 +147,8 @@ class ClientPathfinder(object):
         return self._GetPathBetween(self._autopilotStateInterface, convertedFromID, convertedToID)
 
     def _GetJumpCount(self, stateInterface, fromID, toID):
+        if fromID is None or toID is None:
+            return None
         if fromID == toID:
             # When travelling within the same system (even wormholes) the distance should always be zero
             return 0
