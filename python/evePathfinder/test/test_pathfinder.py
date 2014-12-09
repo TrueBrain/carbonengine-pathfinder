@@ -136,13 +136,6 @@ class ClientPathfinderTestCase(unittest.TestCase):
         self.assertIsNot(cache1, cache2)
 
     @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetWaypointPathFromWormholeSystemReturnsEmptyList(self, isWormholeSystem):
-        isWormholeSystem.return_value = True
-        waypoints = [5, 10, 15]
-        path = self.clientPathfinder.GetWaypointPath(waypoints)
-        self.assertEqual(path, [])
-
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
     def testGetWaypointPathMapsStations(self, isWormholeSystem):
         isWormholeSystem.return_value = False
         waypoints = [5, 10, 15]

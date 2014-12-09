@@ -117,9 +117,6 @@ class ClientPathfinder(object):
         return completeWaypointList
 
     def GetWaypointPath(self, waypoints):
-        if IsWormholeSystem(self.GetCurrentSystem()):
-            return []
-
         solarSystemWaypoints = map(self.ConvertStationIDToSolarSystemIDIfNecessary, waypoints)
         waypointListsContainingOnlySystems = self.pathfinderCore.GetListOfWaypointPaths(
             self._autopilotStateInterface,

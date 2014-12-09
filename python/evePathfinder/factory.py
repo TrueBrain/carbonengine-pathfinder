@@ -13,19 +13,12 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache):
     """
     eveMap = pyEvePathfinder.EveMap()
     for regionID, regionItem in mapRegionCache.iteritems():
-        if IsWormholeRegion(regionID):
-            # no jumps in wormhole space
-            continue
-
         eveMap.CreateRegion(regionID)
 
         for constellationID in regionItem.constellationIDs:
             eveMap.CreateConstellation(constellationID, regionID)
 
     for solarSystemID, ssInfo in mapSystemCache.iteritems():
-        if IsWormholeRegion(ssInfo.regionID):
-            continue
-
         eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, ssInfo.securityStatus)
 
     # Once populated, create the jumps
