@@ -36,25 +36,26 @@ namespace Be
 		Result( PRESULT b ) : value( b ) {}
 		PRESULT value;
 	};
-
-	template <>
-	inline bool IsSuccess<PRESULT>( const Result<PRESULT>& result )
-	{
-		return result.value == PRESULT_OK;
-	}
-
-	template <>
-	inline const char* GetErrorMessage<PRESULT>( const Result<PRESULT>& result )
-	{
-		return S_ERROR_STRINGS[result.value];
-	}
-
-	template <>
-	inline PyObject* GetException<PRESULT>( const Result<PRESULT>& result )
-	{
-		return PyExc_RuntimeError;
-	}
 }
+
+template <>
+inline bool BeIsSuccess<PRESULT>( const Be::Result<PRESULT>& result )
+{
+	return result.value == PRESULT_OK;
+}
+
+template <>
+inline const char* BeGetErrorMessage<PRESULT>( const Be::Result<PRESULT>& result )
+{
+	return S_ERROR_STRINGS[result.value];
+}
+
+template <>
+inline PyObject* BeGetException<PRESULT>( const Be::Result<PRESULT>& result )
+{
+	return PyExc_RuntimeError;
+}
+
 
 
 #endif
