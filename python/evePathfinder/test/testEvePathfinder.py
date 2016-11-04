@@ -463,4 +463,4 @@ if __name__ == '__main__':
     import sys
 
     suite = unittest.TestLoader().loadTestsFromTestCase(testEvePathfinder)
-    unittest.TextTestRunner(stream=sys.stderr, verbosity=2).run(suite)
+    unittest.TextTestRunner(stream=sys.stdout, verbosity=2).run(suite)

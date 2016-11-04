@@ -452,7 +452,7 @@ class testPathfinderCore(unittest.TestCase):
 
 if __name__ == '__main__':
     import sys
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
     suite = unittest.TestLoader().loadTestsFromTestCase(testPathfinderCore)
-    unittest.TextTestRunner(stream=sys.stderr, verbosity=2).run(suite)
+    unittest.TextTestRunner(stream=sys.stdout, verbosity=2).run(suite)
