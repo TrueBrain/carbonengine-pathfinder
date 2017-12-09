@@ -127,8 +127,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;_DEBUG;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;..\..\..\carbon\src\stackless\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;_DEBUG;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\include;..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <TreatWarningAsError>True</TreatWarningAsError>
@@ -142,9 +142,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>psapi.lib;rad_tm_win32.lib;atlsd.lib;BlueExposureStatic_d.lib;CcpCoreStatic_d.lib;python27_d.lib;msvcprtd.lib;msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic_d.lib;CcpCoreStatic_d.lib;atlsd.lib;msvcprtd.lib;msvcrtd.lib;psapi.lib;python27_d.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -155,7 +155,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CcpSdkPath)\Python\27\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <TreatWarningAsError>True</TreatWarningAsError>
@@ -167,9 +167,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/python_27/$(Platform)/$(PlatformToolset);$(CcpSdkPath)\Python\27\libs;..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CcpSdkPath)\Python\27\libs;../../../carbon/autobuild/BlueExposure/python_27/$(Platform)/$(PlatformToolset);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;python27.lib;psapi.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -180,8 +180,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;..\..\..\carbon\src\stackless\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\include;..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <TreatWarningAsError>True</TreatWarningAsError>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -192,9 +192,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;python27.lib;psapi.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -205,7 +205,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CcpSdkPath)\Python\27_64\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <TreatWarningAsError>True</TreatWarningAsError>
@@ -217,9 +217,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>$(CcpSdkPath)\Python\27_64\libs;../../../carbon/autobuild/BlueExposure/python_27/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CcpSdkPath)\Python\27_64\libs;../../../carbon/autobuild/BlueExposure/python_27/$(Platform)/$(PlatformToolset);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;python27.lib;psapi.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -230,8 +230,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;_DEBUG;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;..\..\..\carbon\src\stackless\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;_DEBUG;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\include;..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <TreatWarningAsError>True</TreatWarningAsError>
@@ -245,9 +245,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>psapi.lib;atlsd.lib;BlueExposureStatic_d.lib;rad_tm_win64.lib;CcpCoreStatic_d.lib;python27_d.lib;msvcprtd.lib;msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic_d.lib;CcpCoreStatic_d.lib;atlsd.lib;msvcprtd.lib;msvcrtd.lib;psapi.lib;python27_d.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -258,8 +258,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;BLUEBUILD_STATIC;_UNICODE;BLUE_DLL_NAME=pyEvePathfinder;BLUEBUILD_STATIC;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;..\..\..\carbon\src\stackless\include;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BLUEBUILD_STATIC;BLUE_WITH_PYTHON=1;CCP_STACKLESS=1;BLUEBUILD_STATIC;BLUE_DLL_NAME=pyEvePathfinder;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\carbon\src\stackless\include;..\..\..\carbon\src\stackless\pc;..\..\..\carbon\src\stackless\stackless;$(CcpBranchPath)/carbon/src;$(CcpSdkPath)\telemetry\3.0.1.1008\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>True</MultiProcessorCompilation>
       <TreatWarningAsError>True</TreatWarningAsError>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -270,9 +270,9 @@
     <Link>
       <GenerateDebugInformation>True</GenerateDebugInformation>
       <AdditionalAppleFrameworks>CoreFoundation;%(AdditionalAppleFrameworks)</AdditionalAppleFrameworks>
-      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);..\..\..\carbon\autobuild\blue\python_27\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../carbon/autobuild/BlueExposure/exefile/$(Platform)/$(PlatformToolset);..\..\..\carbon\autobuild\stackless\$(Platform);$(CcpSdkPath)\telemetry\3.0.1.1008\lib;../../../carbon/autobuild/CcpCore/$(Platform)/$(PlatformToolset)/;..\..\..\carbon\autobuild\blue\python_27\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;python27.lib;psapi.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile/>
     <Manifest/>
@@ -281,6 +281,7 @@
     <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="autoversion.h"/>
     <ClInclude Include="EveDjikstrasGoal.h"/>
     <ClInclude Include="EveFloodFillGoal.h"/>
     <ClInclude Include="EveMap.h"/>
