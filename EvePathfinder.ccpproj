@@ -38,7 +38,7 @@ Configurations:
 
   Debug|Win32,x64:
     Imports:
-    - ../../../carbon/src/stackless/stackless.yaml
+    - ../../../carbon/src/stackless/Include/stackless.yaml
     General: 
       OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
       TargetName: pyEvePathfinder_d
@@ -57,7 +57,7 @@ Configurations:
 
   Release|Win32,x64:
     Imports:
-    - ../../../carbon/src/stackless/stackless.yaml
+    - ../../../carbon/src/stackless/Include/stackless.yaml
     General:
       OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
       TargetName: pyEvePathfinder
