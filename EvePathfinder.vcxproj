@@ -281,7 +281,6 @@
     <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="autoversion.h"/>
     <ClInclude Include="EveDjikstrasGoal.h"/>
     <ClInclude Include="EveFloodFillGoal.h"/>
     <ClInclude Include="EveMap.h"/>

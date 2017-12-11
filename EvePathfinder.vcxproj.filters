@@ -5,9 +5,6 @@
     <Filter Include="Source Files\Include"/>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="autoversion.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="EveDjikstrasGoal.h">
       <Filter>Source Files</Filter>
     </ClInclude>
