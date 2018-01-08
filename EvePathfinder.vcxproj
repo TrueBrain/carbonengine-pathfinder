@@ -26,9 +26,7 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{15756780-5825-5c56-aac8-7ba7d685a107}</ProjectGuid>
-  </PropertyGroup>
+  <PropertyGroup Label="Globals"/>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
@@ -47,7 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.Default.props"/>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.pyd</TargetExt>
     <UseOfMfc>False</UseOfMfc>
@@ -84,7 +82,7 @@
     <IntDir>../../autobuild/temp/$(ProjectName)/$(Platform)/$(Configuration)/</IntDir>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)/Microsoft.Cpp.props"/>
   <PropertyGroup Label="UserMacros">
     <CcpSdkPath>../../../../../../sdk</CcpSdkPath>
     <CcpSharedToolsPath>../../../../../../shared_tools</CcpSharedToolsPath>
@@ -101,13 +99,13 @@
       <Value>$(CcpBranchPath)</Value>
     </BuildMacro>
   </ItemGroup>
-  <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|Win32'" Label="PropertySheets" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|x64'" Label="PropertySheets" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets" />
+  <ImportGroup Label="ExtensionSettings"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|Win32'" Label="PropertySheets"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|x64'" Label="PropertySheets"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets"/>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets"/>
   <PropertyGroup>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">True</LinkIncremental>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pyEvePathfinder_d</TargetName>
@@ -148,11 +146,11 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic_d.lib;CcpCoreStatic_d.lib;atlsd.lib;msvcprtd.lib;msvcrtd.lib;psapi.lib;python27_d.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|Win32'">
     <ClCompile>
@@ -173,11 +171,11 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -198,11 +196,11 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_27|x64'">
     <ClCompile>
@@ -223,11 +221,11 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -251,11 +249,11 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic_d.lib;CcpCoreStatic_d.lib;atlsd.lib;msvcprtd.lib;msvcrtd.lib;psapi.lib;python27_d.lib;rad_tm_win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -276,42 +274,43 @@
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <AdditionalDependencies>BlueExposureStatic.lib;CcpCoreStatic.lib;psapi.lib;python27.lib;rad_tm_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ResourceCompile />
-    <Manifest />
-    <PreBuildEvent />
-    <PreLinkEvent />
-    <PostBuildEvent />
+    <ResourceCompile/>
+    <Manifest/>
+    <PreBuildEvent/>
+    <PreLinkEvent/>
+    <PostBuildEvent/>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="EveDjikstrasGoal.h" />
-    <ClInclude Include="EveFloodFillGoal.h" />
-    <ClInclude Include="EveMap.h" />
-    <ClInclude Include="EveMapNodes.h" />
-    <ClInclude Include="EveMapPathfinderCache.h" />
-    <ClInclude Include="EvePathfinder.h" />
-    <ClInclude Include="EveStandardFloodfillGoal.h" />
-    <ClInclude Include="PResultBeResult.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Include\IEvePathfinderGoal.h" />
+    <ClInclude Include="autoversion.h"/>
+    <ClInclude Include="EveDjikstrasGoal.h"/>
+    <ClInclude Include="EveFloodFillGoal.h"/>
+    <ClInclude Include="EveMap.h"/>
+    <ClInclude Include="EveMapNodes.h"/>
+    <ClInclude Include="EveMapPathfinderCache.h"/>
+    <ClInclude Include="EvePathfinder.h"/>
+    <ClInclude Include="EveStandardFloodfillGoal.h"/>
+    <ClInclude Include="PResultBeResult.h"/>
+    <ClInclude Include="stdafx.h"/>
+    <ClInclude Include="Include\IEvePathfinderGoal.h"/>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EveDjikstrasGoal.cpp" />
-    <ClCompile Include="EveDjikstrasGoal_Blue.cpp" />
-    <ClCompile Include="EveFloodFillGoal.cpp" />
-    <ClCompile Include="EveMap.cpp" />
-    <ClCompile Include="EveMapPathfinderCache.cpp" />
-    <ClCompile Include="EveMapPathfinderCache_Blue.cpp" />
-    <ClCompile Include="EveMap_Blue.cpp" />
-    <ClCompile Include="EvePathfinder.cpp" />
-    <ClCompile Include="EveStandardFloodfillGoal.cpp" />
-    <ClCompile Include="EveStandardFloodfillGoal_Blue.cpp" />
-    <ClCompile Include="IEvePathfinderGoal_Blue.cpp" />
+    <ClCompile Include="EveDjikstrasGoal.cpp"/>
+    <ClCompile Include="EveDjikstrasGoal_Blue.cpp"/>
+    <ClCompile Include="EveFloodFillGoal.cpp"/>
+    <ClCompile Include="EveMap.cpp"/>
+    <ClCompile Include="EveMapPathfinderCache.cpp"/>
+    <ClCompile Include="EveMapPathfinderCache_Blue.cpp"/>
+    <ClCompile Include="EveMap_Blue.cpp"/>
+    <ClCompile Include="EvePathfinder.cpp"/>
+    <ClCompile Include="EveStandardFloodfillGoal.cpp"/>
+    <ClCompile Include="EveStandardFloodfillGoal_Blue.cpp"/>
+    <ClCompile Include="IEvePathfinderGoal_Blue.cpp"/>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="testEvePathfinder.cpp" />
+    <ClCompile Include="testEvePathfinder.cpp"/>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup/>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+  <ImportGroup Label="ExtensionTargets"/>
 </Project>
