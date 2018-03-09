@@ -4,6 +4,8 @@ Manages the client caching strategy
 """
 from collections import defaultdict
 import sys
+
+from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
 from inventorycommon.util import IsWormholeSystem
 
 
@@ -130,7 +132,7 @@ class ClientPathfinder(object):
         return self.pathfinderCore.GetJumpCountsBetweenSystemPairs(self._standardStateInterface, sourceDestinationPairList)
 
     def _GetPathBetween(self, stateInterface, fromID, toID):
-        if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
+        if not IsKnownSpaceSystem(fromID) or not IsKnownSpaceSystem(toID):
             return []
 
         return self.pathfinderCore.GetPathBetween(stateInterface, fromID, toID)
@@ -149,7 +151,7 @@ class ClientPathfinder(object):
         if fromID == toID:
             # When travelling within the same system (even wormholes) the distance should always be zero
             return 0
-        if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
+        if not IsKnownSpaceSystem(fromID) or not IsKnownSpaceSystem(toID):
             return sys.maxint
 
         return self.pathfinderCore.GetJumpCountBetween(stateInterface, fromID, toID)
