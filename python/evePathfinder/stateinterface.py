@@ -4,12 +4,12 @@ Pathfinder state interfaces for the client to use
 import hashlib
 import math
 
+from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
 from evePathfinder.pathfinderconst import ROUTE_TYPE_SHORTEST
 from evePathfinder.pathfinderconst import ROUTE_TYPE_SAFE
 from evePathfinder.pathfinderconst import DEFAULT_SECURITY_PENALTY_VALUE
 from evePathfinder.pathfinderconst import SECURITY_PENALTY_FACTOR
 from evePathfinder.pathfinderconst import DEFAULT_SECURITY_PENALTY
-from inventorycommon.util import IsWormholeSystem
 
 # Systems that the autopilot will avoid by default
 DEFAULT_AVOIDANCE = [
@@ -78,7 +78,7 @@ class AutopilotPathfinderInterface(object):
         if self.IsPodkillAvoidanceEnabled():
             items.extend(self.GetPodkillSystemList())
 
-        items = [solarSystemID for solarSystemID in items if not IsWormholeSystem(solarSystemID)]
+        items = [solarSystemID for solarSystemID in items if IsKnownSpaceSystem(solarSystemID)]
         items.sort()
         return items
 

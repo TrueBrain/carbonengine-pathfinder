@@ -4,7 +4,8 @@ A server implementation of a pathfinder service. Provides the interface and cach
 import sys
 from copy import copy
 from collections import defaultdict
-from inventorycommon.util import IsWormholeSystem
+
+from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
 
 
 class ServerPathfinder(object):
@@ -22,14 +23,17 @@ class ServerPathfinder(object):
         """
         return self.pathfinderCacheByRouteTypeAndFromID[(stateInterface.GetRouteType(), fromID)]
 
+    def AreNotKnownSpaceSystems(self, fromID, toID):
+        return not (IsKnownSpaceSystem(fromID) and IsKnownSpaceSystem(toID))
+
     def GetPathBetween(self, fromID, toID):
-        if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
+        if self.AreNotKnownSpaceSystems(fromID, toID):
             return []
 
         return self._pathfinderCore.GetPathBetween(self._stateInterface, fromID, toID)
 
     def GetPathBetweenForRouteType(self, fromID, toID, routeType):
-        if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
+        if self.AreNotKnownSpaceSystems(fromID, toID):
             return []
         # take a copy of state interface so we can safely swap the route type
         tempStateInterface = copy(self._stateInterface)
@@ -40,7 +44,7 @@ class ServerPathfinder(object):
         if fromID == toID:
             return 0
 
-        if IsWormholeSystem(fromID) or IsWormholeSystem(toID):
+        if self.AreNotKnownSpaceSystems(fromID, toID):
             return sys.maxint
 
         jc = self._pathfinderCore.GetJumpCountBetween(self._stateInterface, fromID, toID)
@@ -69,7 +73,7 @@ class ServerPathfinder(object):
         """
         Returns a map[jumpCount, list of systems] that have a jump count that is >= minCount and < maxCount
         """
-        if IsWormholeSystem(fromID):
+        if not IsKnownSpaceSystem(fromID):
             return {}
 
         systemsByJumpRange = self._pathfinderCore.GetSystemsWithinJumpRange(

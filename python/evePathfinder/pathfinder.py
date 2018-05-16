@@ -6,7 +6,6 @@ from collections import defaultdict
 import sys
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
-from inventorycommon.util import IsWormholeSystem
 
 
 class ClientPathfinder(object):
@@ -169,7 +168,7 @@ class ClientPathfinder(object):
         """
         Returns a map[jumpCount, list of systems] that have a jump count that is >= minCount and < maxCount
         """
-        if IsWormholeSystem(fromID):
+        if not IsKnownSpaceSystem(fromID):
             return {}
 
         return self.pathfinderCore.GetSystemsWithinJumpRange(

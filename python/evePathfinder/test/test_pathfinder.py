@@ -24,49 +24,49 @@ class ClientPathfinderTestCase(unittest.TestCase):
             self.getCurrentSystemMethod
         )
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetPathBetweenInKnownSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [False, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetPathBetweenInKnownSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, True]
         self.clientPathfinder.GetPathBetween(self.fromID, self.toID)
         self.pathfinderCore.GetPathBetween.assert_called_once_with(self.stateInterface, self.fromID, self.toID)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetPathBetweenFromWormholeSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [True, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetPathBetweenFromWormholeSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, False]
         path = self.clientPathfinder.GetPathBetween(self.fromID, self.toID)
         self.assertEqual([], path)
         self.pathfinderCore.GetPathBetween.assert_has_calls([])
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetPathBetweenToWormholeSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [False, True]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetPathBetweenToWormholeSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [False, True]
         path = self.clientPathfinder.GetPathBetween(self.fromID, self.toID)
         self.assertEqual([], path)
         self.pathfinderCore.GetPathBetween.assert_has_calls([])
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetJumpCountSameFromToInKnownSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [False, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetJumpCountSameFromToInKnownSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [False, False]
         count = self.clientPathfinder.GetJumpCount(self.fromID, self.fromID)
         self.assertEqual(0, count)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetJumpCountSameFromToInWormholeSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [True, True]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetJumpCountSameFromToInWormholeSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, True]
         count = self.clientPathfinder.GetJumpCount(self.fromID, self.fromID)
         self.assertEqual(0, count)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetJumpCountInKnownSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [False, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetJumpCountInKnownSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, True]
         self.clientPathfinder.GetJumpCount(self.fromID, self.toID)
         self.pathfinderCore.GetJumpCountBetween.assert_called_once_with(
             self.stateInterface, self.fromID, self.toID
         )
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetJumpCountInKnownSpaceWhenUnreachable(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [False, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetJumpCountInKnownSpaceWhenUnreachable(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, True]
         self.pathfinderCore.GetJumpCountBetween.return_value = sys.maxint
         count = self.clientPathfinder.GetJumpCount(self.fromID, self.toID)
         self.assertEqual(sys.maxint, count)
@@ -74,22 +74,22 @@ class ClientPathfinderTestCase(unittest.TestCase):
             self.stateInterface, self.fromID, self.toID
         )
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetJumpCountToWormholeSpace(self, isWormholeSystem):
-        isWormholeSystem.side_effect = [True, False]
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetJumpCountToWormholeSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.side_effect = [True, False]
         count = self.clientPathfinder.GetJumpCount(self.fromID, self.toID)
         self.assertEqual(sys.maxint, count)
         self.pathfinderCore.GetJumpCountBetween.assert_has_calls([])
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetSystemsWithinJumpRangeFromWormholeSpace(self, isWormholeSystem):
-        isWormholeSystem.return_value = True
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetSystemsWithinJumpRangeFromWormholeSpace(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.return_value = False
         result = self.clientPathfinder.GetSystemsWithinJumpRange(self.fromID, 0, 1)
         self.assertEqual({}, result)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetSystemsWithinJumpRange(self, isWormholeSystem):
-        isWormholeSystem.return_value = False
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetSystemsWithinJumpRange(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.return_value = True
         expectedResult = {1: 2}
         self.pathfinderCore.GetSystemsWithinJumpRange.return_value = expectedResult
         minCount, maxCount = 2, 4
@@ -135,9 +135,9 @@ class ClientPathfinderTestCase(unittest.TestCase):
         cache2 = self.clientPathfinder.GetCachedEntry(self.stateInterface, self.fromID)
         self.assertIsNot(cache1, cache2)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testGetWaypointPathMapsStations(self, isWormholeSystem):
-        isWormholeSystem.return_value = False
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testGetWaypointPathMapsStations(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.return_value = False
         waypoints = [5, 10, 15]
         path = [[5, 3, 10], [10, 4, 11]]
         self.pathfinderCore.GetListOfWaypointPaths.return_value = path
@@ -145,9 +145,9 @@ class ClientPathfinderTestCase(unittest.TestCase):
         path = self.clientPathfinder.GetWaypointPath(waypoints)
         self.assertEqual([5, 3, 10, 4, 11, 15], path)
 
-    @mock.patch("evePathfinder.pathfinder.IsWormholeSystem")
-    def testWaypointPathRespectsAutopilot(self, isWormholeSystem):
-        isWormholeSystem.return_value = False
+    @mock.patch("evePathfinder.pathfinder.IsKnownSpaceSystem")
+    def testWaypointPathRespectsAutopilot(self, isKnownSpaceSystem):
+        isKnownSpaceSystem.return_value = False
         waypoints = [5, 10, 11]
         path = [[5, 3, 10], [10, 4, 11]]
         self.pathfinderCore.GetListOfWaypointPaths.return_value = path

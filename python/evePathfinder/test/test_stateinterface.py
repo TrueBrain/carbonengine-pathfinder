@@ -8,6 +8,7 @@ AVOID_ENABLE = "pfAvoidSystems"
 ROUTE_TYPE = "pfRouteType"
 AVOID_PODKILL_ENABLE = "pfAvoidPodKill"
 
+
 class AutopilotStateInterfaceTestCase(unittest.TestCase):
     def setUp(self):
         self.settings = {
@@ -39,6 +40,8 @@ class AutopilotStateInterfaceTestCase(unittest.TestCase):
 
         self.mapSvc.ExpandItems.return_value = avoidList
         self.updatePodKills.return_value = [2]
-        avoided = self.stateInterface.GetAvoidanceList()
-        self.updatePodKills.assert_called_once_with([])
-        self.assertEqual(avoided, [2, 3, 5])
+        with mock.patch("evePathfinder.stateinterface.IsKnownSpaceSystem") as isKnownSpaceSystem:
+            isKnownSpaceSystem.return_value = True
+            avoided = self.stateInterface.GetAvoidanceList()
+            self.updatePodKills.assert_called_once_with([])
+            self.assertEqual(avoided, [2, 3, 5])
