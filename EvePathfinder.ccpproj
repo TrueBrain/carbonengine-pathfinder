@@ -20,6 +20,7 @@ ClCompile:
   - UNICODE
   - _UNICODE
   - BLUE_DLL_NAME=pyEvePathfinder
+  - _SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS
 
 Link:
   GenerateDebugInformation: true
@@ -32,7 +33,7 @@ Configurations:
     Imports:
     - ../../../../../../sdk/Python/ccpproj/Python_2.7.yaml
     General:
-      OutDir: ..\..\autobuild\pyEvePathfinder\python_27\$(Platform)\
+      OutDir: ../../autobuild/$(ProjectName)/python_27/$(Platform)/$(PlatformToolset)/
       TargetName: pyEvePathfinder
       TargetExt: .pyd
 
@@ -40,7 +41,7 @@ Configurations:
     Imports:
     - ../../../carbon/src/stackless/Include/stackless.yaml
     General: 
-      OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
+      OutDir: ../../autobuild/$(ProjectName)/exefile/$(Platform)/$(PlatformToolset)/
       TargetName: pyEvePathfinder_d
       LinkIncremental: true
     ClCompile:
@@ -53,11 +54,10 @@ Configurations:
       AdditionalDependencies:
       - msvcrtd.lib
       - msvcprtd.lib
-      - atlsd.lib
 
   Release|Win32,x64:
     Imports:
     - ../../../carbon/src/stackless/Include/stackless.yaml
     General:
-      OutDir: ..\..\autobuild\pyEvePathfinder\exefile\$(Platform)\
+      OutDir: ../../autobuild/$(ProjectName)/exefile/$(Platform)/$(PlatformToolset)/
       TargetName: pyEvePathfinder
