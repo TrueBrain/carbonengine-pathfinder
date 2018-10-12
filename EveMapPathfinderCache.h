@@ -177,7 +177,7 @@ public:
 	void SetSolutionSystem( const EveMap& universe, EveMapNodeID nodeID );
 
 	// Only valid to call if IsComplete is True
-	Be::Result<PRESULT> EveMapPathfinderCache::GetSolutionSystem( const EveMap* map, unsigned& result );
+	Be::Result<PRESULT> GetSolutionSystem( const EveMap* map, unsigned& result );
 
 	// True when a goal node has been reached
 	bool IsComplete() const;
