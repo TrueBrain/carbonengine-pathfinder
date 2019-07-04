@@ -31,7 +31,7 @@ Link:
 Configurations:
   Release_27|Win32,x64:
     Imports:
-    - ../../../sdk/Python/ccpproj/Python_2.7.yaml
+    - ../../../../../../sdk/Python/ccpproj/Python_2.7.yaml
     General:
       OutDir: ../../autobuild/$(ProjectName)/python_27/$(Platform)/$(PlatformToolset)/
       TargetName: pyEvePathfinder
