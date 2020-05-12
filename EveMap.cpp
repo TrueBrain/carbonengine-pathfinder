@@ -323,3 +323,18 @@ void EveMap::AddLastEveMapNodeIDToLookup( unsigned itemID )
 	last.m_mapNodeOffset = m_nodes.size() - 1;
 	m_itemIDToNodeID.insert( std::make_pair(itemID, last));
 }
+
+// Sets the security level for a solar system
+void EveMap::SetSolarSystemSecurity(unsigned solarSystemID, float security)
+{
+	EveMapNodeID nodeID;
+
+	if (GetNodeID(solarSystemID, nodeID))
+	{
+		if (m_nodes[nodeID.m_mapNodeOffset].m_type == EveMapNode::SOLAR_SYSTEM)
+		{
+			EveMapNode& node = m_nodes[nodeID.m_mapNodeOffset];
+			node.m_trueSecRating = security;
+		}
+	}
+}

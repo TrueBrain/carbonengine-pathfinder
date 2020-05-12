@@ -66,6 +66,9 @@ public:
 	// Get the EveMapNode for a particular GetRegion
 	EveMapNode const * GetRegion( EveMapNodeID solarSystemID ) const;
 
+	// Update the security level of a node if it exists
+	void SetSolarSystemSecurity(unsigned solarSystemID, float security);
+
 	// Calculate packing for the closed list of solar systems
 	void FinalizeMap();
 

@@ -12,6 +12,7 @@ const Be::ClassInfo* EveMap::ExposeToBlue()
 		MAP_METHOD_AND_WRAP("CreateRegion", CreateRegion, "")
 		MAP_METHOD_AND_WRAP("CreateConstellation", CreateConstellation, "")
 		MAP_METHOD_AND_WRAP("CreateSolarSystem", CreateSystem, "")
+		MAP_METHOD_AND_WRAP("SetSolarSystemSecurity", SetSolarSystemSecurity, "")
 
 		MAP_METHOD_AND_WRAP("AddJump", AddJump, "")
 	EXPOSURE_END()
