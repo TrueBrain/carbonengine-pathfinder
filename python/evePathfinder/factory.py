@@ -3,6 +3,8 @@ Contains factory methods to construct a pathfinder core instance
 """
 
 import pyEvePathfinder
+
+from security.common.util import get_modified_security_level
 from . import core
 from inventorycommon.util import IsWormholeRegion
 
@@ -19,7 +21,8 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache):
             eveMap.CreateConstellation(constellationID, regionID)
 
     for solarSystemID, ssInfo in mapSystemCache.iteritems():
-        eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, ssInfo.securityStatus)
+        securityLevel = get_modified_security_level(solarSystemID)
+        eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, securityLevel)
 
     # Once populated, create the jumps
     for jump in mapJumpCache:
