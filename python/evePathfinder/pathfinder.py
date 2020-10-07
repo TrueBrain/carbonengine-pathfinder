@@ -5,7 +5,7 @@ Manages the client caching strategy
 from collections import defaultdict
 import sys
 
-from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
+from eve.common.script.sys.idCheckers import IsKnownSpaceSystem, IsTriglavianSystem, IsWormholeSystem
 
 
 class ClientPathfinder(object):
@@ -33,6 +33,13 @@ class ClientPathfinder(object):
         cache is invalidated, and will be refreshed
         """
         self._autopilotStateInterface.SetPodKillAvoidance(pkAvoid)
+
+    def SetTriglavianTaleAvoidance(self, pkAvoid):
+        """
+        Set pod kill avoidance to the specified value. If a change occurs,
+        cache is invalidated, and will be refreshed
+        """
+        self._autopilotStateInterface.SetTriglavianTaleAvoidance(pkAvoid)
 
     def SetSystemAvoidance(self, pkAvoid=None):
         self._autopilotStateInterface.SetSystemAvoidance(pkAvoid)
@@ -173,3 +180,21 @@ class ClientPathfinder(object):
 
         return self.pathfinderCore.GetSystemsWithinJumpRange(
             self._standardStateInterface, fromID, jumpCountMin, jumpCountMax)
+
+    def GetNoRouteFoundText(self, solarSystemID):
+        """
+        Get the appropriate text showing that no route could be calculated to the system
+        from wherever. Assumes no path exists to this system from wherever you start.
+        """
+        import localization
+        if IsTriglavianSystem(solarSystemID) or IsWormholeSystem(solarSystemID):
+            # This solar system can be accessed via wormholes or is a wormhole system.
+            return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
+        else:
+            clientPathfinderService = sm.GetService("clientPathfinderService")
+            if clientPathfinderService.GetPathBetween(const.solarSystemJita, solarSystemID):
+                # This is somewhere in connected known space.
+                return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
+        # No path exists to Jita and it's not a wormhole system or in Pochven.
+        # Must be off the grid, such as Polaris.
+        return localization.GetByLabel("UI/Generic/Unreachable")
