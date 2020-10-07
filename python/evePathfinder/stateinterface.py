@@ -53,12 +53,11 @@ class AutopilotPathfinderInterface(object):
     """
     This class defines the interface from the pathfinder to the game and UI
     """
-    def __init__(self, mapSvc, updatePodKillListFunc, getTriglavianTaleAvoidanceSystemsFunc ,autopilotSettings):
+    def __init__(self, mapSvc, updatePodKillListFunc, autopilotSettings):
         self.podKillList = []
         self.lastPKversionNumber = -1
         self.mapSvc = mapSvc
         self.UpdatePodKillList = updatePodKillListFunc
-        self.GetTriglavianTaleAvoidanceSystems = getTriglavianTaleAvoidanceSystemsFunc
         self.autopilotSettings = autopilotSettings
 
     def GetPodkillSystemList(self):
@@ -78,9 +77,6 @@ class AutopilotPathfinderInterface(object):
 
         if self.IsPodkillAvoidanceEnabled():
             items.extend(self.GetPodkillSystemList())
-
-        if self.IsTriglavianTaleAvoidanceEnabled():
-            items.extend(self.GetTriglavianTaleAvoidanceSystems())
 
         items = [solarSystemID for solarSystemID in items if IsKnownSpaceSystem(solarSystemID)]
         items.sort()
@@ -109,17 +105,11 @@ class AutopilotPathfinderInterface(object):
     def SetPodKillAvoidance(self, pkAvoid):
         self.autopilotSettings.Set("pfAvoidPodKill", pkAvoid)
 
-    def SetTriglavianTaleAvoidance(self, ttAvoid):
-        self.autopilotSettings.Set("pfAvoidTriglavianTales", ttAvoid)
-
     def IsAvoidanceEnabled(self):
         return self.autopilotSettings.Get("pfAvoidSystems", 1)
 
     def IsPodkillAvoidanceEnabled(self):
         return self.autopilotSettings.Get("pfAvoidPodKill", 0)
-
-    def IsTriglavianTaleAvoidanceEnabled(self):
-        return self.autopilotSettings.Get("pfAvoidTriglavianTales", 0)
 
     def GetCurrentStateHash(self, fromSolarSystemID):
         return GetCurrentStateHash(self, fromSolarSystemID)
