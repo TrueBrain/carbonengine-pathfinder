@@ -53,12 +53,13 @@ class AutopilotPathfinderInterface(object):
     """
     This class defines the interface from the pathfinder to the game and UI
     """
-    def __init__(self, mapSvc, updatePodKillListFunc, getTriglavianTaleAvoidanceSystemsFunc ,autopilotSettings):
+    def __init__(self, mapSvc, updatePodKillListFunc, getTriglavianTaleAvoidanceSystemsFunc, getEdencomSystemsAvoidanceList, autopilotSettings):
         self.podKillList = []
         self.lastPKversionNumber = -1
         self.mapSvc = mapSvc
         self.UpdatePodKillList = updatePodKillListFunc
         self.GetTriglavianTaleAvoidanceSystems = getTriglavianTaleAvoidanceSystemsFunc
+        self.GetEdencomSystemsAvoidanceList = getEdencomSystemsAvoidanceList
         self.autopilotSettings = autopilotSettings
 
     def GetPodkillSystemList(self):
@@ -81,6 +82,9 @@ class AutopilotPathfinderInterface(object):
 
         if self.IsTriglavianTaleAvoidanceEnabled():
             items.extend(self.GetTriglavianTaleAvoidanceSystems())
+
+        if self.IsEdencomSystemsAvoidanceEnabled():
+            items.extend(self.GetEdencomSystemsAvoidanceList())
 
         items = [solarSystemID for solarSystemID in items if IsKnownSpaceSystem(solarSystemID)]
         items.sort()
@@ -109,8 +113,11 @@ class AutopilotPathfinderInterface(object):
     def SetPodKillAvoidance(self, pkAvoid):
         self.autopilotSettings.Set("pfAvoidPodKill", pkAvoid)
 
-    def SetTriglavianTaleAvoidance(self, ttAvoid):
-        self.autopilotSettings.Set("pfAvoidTriglavianTales", ttAvoid)
+    def SetTriglavianTaleAvoidance(self, avoid):
+        self.autopilotSettings.Set("pfAvoidTriglavianTales", avoid)
+
+    def SetEdencomSystemsAvoidance(self, avoid):
+        self.autopilotSettings.Set("pfAvoidEdencomSystems", avoid)
 
     def IsAvoidanceEnabled(self):
         return self.autopilotSettings.Get("pfAvoidSystems", 1)
@@ -120,6 +127,9 @@ class AutopilotPathfinderInterface(object):
 
     def IsTriglavianTaleAvoidanceEnabled(self):
         return self.autopilotSettings.Get("pfAvoidTriglavianTales", 0)
+
+    def IsEdencomSystemsAvoidanceEnabled(self):
+        return self.autopilotSettings.Get("pfAvoidEdencomSystems", 0)
 
     def GetCurrentStateHash(self, fromSolarSystemID):
         return GetCurrentStateHash(self, fromSolarSystemID)

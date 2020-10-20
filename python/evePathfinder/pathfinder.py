@@ -34,12 +34,11 @@ class ClientPathfinder(object):
         """
         self._autopilotStateInterface.SetPodKillAvoidance(pkAvoid)
 
-    def SetTriglavianTaleAvoidance(self, pkAvoid):
-        """
-        Set pod kill avoidance to the specified value. If a change occurs,
-        cache is invalidated, and will be refreshed
-        """
-        self._autopilotStateInterface.SetTriglavianTaleAvoidance(pkAvoid)
+    def SetTriglavianTaleAvoidance(self, avoid):
+        self._autopilotStateInterface.SetTriglavianTaleAvoidance(avoid)
+
+    def SetEdencomSystemsAvoidance(self, avoid):
+        self._autopilotStateInterface.SetEdencomSystemsAvoidance(avoid)
 
     def SetSystemAvoidance(self, pkAvoid=None):
         self._autopilotStateInterface.SetSystemAvoidance(pkAvoid)
