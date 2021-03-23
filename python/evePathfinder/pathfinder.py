@@ -21,6 +21,11 @@ class ClientPathfinder(object):
         self.ConvertStationIDToSolarSystemIDIfNecessary = convertStationIDToSolarSystemIDIfNecessaryMethod
         self.GetCurrentSystem = getCurrentSystemMethod
 
+    def UpdatePathfinderCore(self, pathfinderCore):
+        self.pathfinderCore = pathfinderCore
+        self.pathfinderCore.SetGetCachedEntryMethod(self.GetCachedEntry)
+        self.pathfinderCacheByStateInterfaceAndRouteType.default_factory = self.pathfinderCore.CreateCacheEntry
+
     def GetCachedEntry(self, stateInterface, fromID):
         return self.pathfinderCacheByStateInterfaceAndRouteType[(id(stateInterface), stateInterface.GetRouteType())]
 

@@ -9,7 +9,7 @@ from . import core
 from inventorycommon.util import IsWormholeRegion
 
 
-def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache):
+def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, extraJumps=()):
     """
     returns pathinder initialized with an eve map and jump data
     """
@@ -28,6 +28,9 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache):
     for jump in mapJumpCache:
         eveMap.AddJump(jump.fromSystemID, jump.toSystemID, jump.stargateID)
         eveMap.AddJump(jump.toSystemID, jump.fromSystemID, jump.stargateID)  # <-- TODO: stargateID wrong!)
+
+    for fromSystemID, toSystemID, stargateID in extraJumps:
+        eveMap.AddJump(fromSystemID, toSystemID, toSystemID) # <-- TODO: stargateID wrong! the function can't take bigint, doesn't seem to matter)
 
     eveMap.Finalize()
 
