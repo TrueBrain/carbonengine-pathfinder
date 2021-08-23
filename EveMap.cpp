@@ -163,7 +163,7 @@ Be::Result<PRESULT> EveMap::AddJump( unsigned fromID, unsigned toID, unsigned ju
 // -------------------------------------------------------------
 bool EveMap::GetNodeID( unsigned itemID, EveMapNodeID& outNode ) const
 {
-	std::hash_map<unsigned,EveMapNodeID>::const_iterator i = m_itemIDToNodeID.find(itemID);
+	auto i = m_itemIDToNodeID.find(itemID);
 
 	if( i != m_itemIDToNodeID.end() )
 	{

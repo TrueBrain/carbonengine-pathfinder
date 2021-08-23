@@ -4,7 +4,7 @@
 
 #include "EveMapNodes.h"
 #include <vector>
-#include <hash_map>
+#include <unordered_map>
 
 BLUE_DECLARE( EveMap );
 
@@ -90,7 +90,7 @@ private:
 	std::vector<EveSolarSystemJump> m_jumps;
 
 	// only for use on public facing functions
-	std::hash_map<unsigned,EveMapNodeID> m_itemIDToNodeID;
+	std::unordered_map<unsigned,EveMapNodeID> m_itemIDToNodeID;
 
 	// used for deciding the size of the closed list
 	unsigned int m_systemCount;

@@ -2,7 +2,7 @@
 #ifndef EveFloodFillGoal_H
 #define EveFloodFillGoal_H
 
-#include "include/IEvePathfinderGoal.h"
+#include "Include/IEvePathfinderGoal.h"
 
 // -------------------------------------------------------------
 // Description:

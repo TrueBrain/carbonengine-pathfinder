@@ -1,14 +1,13 @@
 #include "stdafx.h"
-#include "BlueExposure/include/InterfaceDefinitions.cxx"
 #include <functional>
 
 BLUE_REGISTER_GLOBAL_AS_MODULE_OBJECT( "classes", BeClasses );
-BLUE_STANDARD_MODULE_INIT( pyEvePathfinder );
+BLUE_STANDARD_MODULE_INIT( _pyevepathfinder );
 
 #include <memory>
 #include "EvePathfinder.h"
 #include "EveMapPathfinderCache.h"
-#include "include/IEvePathfinderGoal.h"
+#include "Include/IEvePathfinderGoal.h"
 #include "EveMap.h"
 
 typedef EveMapNode const * const constEveMapNodePtr;
@@ -71,7 +70,7 @@ void RunPathfinder( const EveMap* universeMap, const IEvePathfinderGoal* goal, E
 	while( !cache->IsComplete() && !cache->AreAllOptionsExhausted() )
 	{
 		// delete when done
-		std::auto_ptr<const OpenListNode> candidate( cache->GetBestCandidate() );
+		std::unique_ptr<const OpenListNode> candidate( cache->GetBestCandidate() );
 
 		if( !candidate.get() )
 		{

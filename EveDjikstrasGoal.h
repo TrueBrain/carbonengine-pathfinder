@@ -9,7 +9,7 @@
 #ifndef EveDjikstrasGoal_H
 #define EveDjikstrasGoal_H
 
-#include "include/IEvePathfinderGoal.h"
+#include "Include/IEvePathfinderGoal.h"
 #include "EveMapNodes.h"
 
 
@@ -32,11 +32,11 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// IEvePathfinderGoal 
 	//////////////////////////////////////////////////////////////////////////
-	virtual bool  IsGoal( const EveMap& universe, EveMapNodeID node ) const;
-	virtual void  GetNeighbours( const EveMap& universe, EveMapNodeID node, std::vector<EveMapNodeID>& neighbours ) const;
-	virtual float GetHeuristicEstimate( const EveMapNode& node ) const;
-	virtual float GetTraversalCost( const EveMapNode& from, const EveMapNode& to ) const;
-	virtual void  GetOriginSystems( std::vector<EveMapNodeID>& outOriginSystems ) const;
+	bool  IsGoal( const EveMap& universe, EveMapNodeID node ) const override;
+	void  GetNeighbours( const EveMap& universe, EveMapNodeID node, std::vector<EveMapNodeID>& neighbours ) const override;
+	float GetHeuristicEstimate( const EveMapNode& node ) const override;
+	float GetTraversalCost( const EveMapNode& from, const EveMapNode& to ) const override;
+	void  GetOriginSystems( std::vector<EveMapNodeID>& outOriginSystems ) const override;
 	//////////////////////////////////////////////////////////////////////////
 
 	// Set the goal system to be used when path-finding
