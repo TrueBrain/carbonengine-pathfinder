@@ -175,30 +175,55 @@ class ClientPathfinder(object):
     def GetJumpCountFromCurrent(self, toID):
         return self._GetJumpCount(self._standardStateInterface, self.GetCurrentSystem(), toID)
 
+    def _GetSystemsWithinJumpRange(self, stateInterface, fromID, jumpCountMin, jumpCountMax):
+        if not IsKnownSpaceSystem(fromID):
+            return {}
+
+        return self.pathfinderCore.GetSystemsWithinJumpRange(stateInterface, fromID, jumpCountMin, jumpCountMax)
+
     def GetSystemsWithinJumpRange(self, fromID, jumpCountMin, jumpCountMax):
         """
         Returns a map[jumpCount, list of systems] that have a jump count that is >= minCount and < maxCount
         """
-        if not IsKnownSpaceSystem(fromID):
-            return {}
+        return self._GetSystemsWithinJumpRange(self._standardStateInterface, fromID, jumpCountMin, jumpCountMax)
 
-        return self.pathfinderCore.GetSystemsWithinJumpRange(
-            self._standardStateInterface, fromID, jumpCountMin, jumpCountMax)
+    def GetSystemsWithinAutopilotJumpRange(self, fromID, jumpCountMin, jumpCountMax):
+        """
+        Returns a map[jumpCount, list of systems] that have a jump count that is >= minCount and < maxCount, taking
+        into account Autopilot settings
+        """
+        return self._GetSystemsWithinJumpRange(self._autopilotStateInterface, fromID, jumpCountMin, jumpCountMax)
 
-    def GetNoRouteFoundText(self, solarSystemID):
-        """
-        Get the appropriate text showing that no route could be calculated to the system
-        from wherever. Assumes no path exists to this system from wherever you start.
-        """
+    def _GetNoRouteFoundText(self, solarSystemID, shouldConsiderAutopilotSettings=False):
         import localization
         if IsTriglavianSystem(solarSystemID) or IsWormholeSystem(solarSystemID):
             # This solar system can be accessed via wormholes or is a wormhole system.
             return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
         else:
             clientPathfinderService = sm.GetService("clientPathfinderService")
-            if clientPathfinderService.GetPathBetween(const.solarSystemJita, solarSystemID):
-                # This is somewhere in connected known space.
-                return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
+            if shouldConsiderAutopilotSettings:
+                if clientPathfinderService.GetAutopilotPathBetween(const.solarSystemJita, solarSystemID):
+                    # This is somewhere in connected known space.
+                    return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
+            else:
+                if clientPathfinderService.GetPathBetween(const.solarSystemJita, solarSystemID):
+                    # This is somewhere in connected known space.
+                    return localization.GetByLabel("UI/Generic/NoGateToGateRoute")
         # No path exists to Jita and it's not a wormhole system or in Pochven.
         # Must be off the grid, such as Polaris.
         return localization.GetByLabel("UI/Generic/Unreachable")
+
+    def GetNoRouteFoundText(self, solarSystemID):
+        """
+        Get the appropriate text showing that no route could be calculated to the system
+        from wherever. Assumes no path exists to this system from wherever you start.
+        """
+        return self._GetNoRouteFoundText(solarSystemID, shouldConsiderAutopilotSettings=False)
+
+    def GetNoRouteFoundTextAutopilot(self, solarSystemID):
+        """
+        Get the appropriate text showing that no route could be calculated to the system
+        from wherever. Assumes no path exists to this system from wherever you start.
+        Takes into account Autopilot settings.
+        """
+        return self._GetNoRouteFoundText(solarSystemID, shouldConsiderAutopilotSettings=True)
