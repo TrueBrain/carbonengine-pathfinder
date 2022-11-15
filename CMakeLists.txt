@@ -3,7 +3,7 @@ project(EvePathfinder VERSION 1.0.0)
 add_library(EvePathfinder SHARED)
 target_link_libraries(EvePathfinder PRIVATE BlueExposure)
 
-target_sources(EvePathfinder PRIVATE 
+target_sources(EvePathfinder PRIVATE
     EveDjikstrasGoal.cpp
     EveDjikstrasGoal.h
     EveDjikstrasGoal_Blue.cpp
@@ -43,11 +43,11 @@ target_include_directories(EvePathfinder PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../
 if(APPLE)
     set_target_properties(
         EvePathfinder
-        PROPERTIES 
+        PROPERTIES
             PREFIX ""
             SUFFIX ".so"
     )
-    target_link_libraries(EvePathfinder PRIVATE "-framework CoreFoundation")
+    target_link_libraries(EvePathfinder PRIVATE "-framework CoreFoundation -framework Cocoa")
 endif()
 set_target_properties(EvePathfinder PROPERTIES OUTPUT_NAME "_pyevepathfinder")
 
