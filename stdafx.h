@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BlueExposure/include/BlueExposure.h"
+#include <BlueExposure.h>
 #include "PResultBeResult.h"
 #include "EveMapNodes.h"
 
