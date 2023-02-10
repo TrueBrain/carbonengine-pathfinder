@@ -52,6 +52,9 @@ target_sources(EvePathfinder PRIVATE
     testEvePathfinder.cpp
     Include/IEvePathfinderGoal.h
 )
+
+set(PUBLIC_HEADER_FILES Include/IEvePathfinderGoal.h)
+
 get_target_property(_SOURCES EvePathfinder SOURCES)
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}"
         PREFIX "Sources"
