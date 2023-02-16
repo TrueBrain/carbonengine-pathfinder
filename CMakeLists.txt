@@ -24,10 +24,7 @@ find_package(BlueExposure REQUIRED NO_CMAKE_PATH)
 find_package(RadGameToolsTelemetry REQUIRED)
 find_package(CcpCore REQUIRED NO_CMAKE_PATH)
 
-add_library(EvePathfinder SHARED)
-target_link_libraries(EvePathfinder PRIVATE BlueExposure)
-
-target_sources(EvePathfinder PRIVATE
+set(SRC_FILES
     EveDjikstrasGoal.cpp
     EveDjikstrasGoal.h
     EveDjikstrasGoal_Blue.cpp
@@ -52,6 +49,9 @@ target_sources(EvePathfinder PRIVATE
     testEvePathfinder.cpp
     Include/IEvePathfinderGoal.h
 )
+
+ccp_add_library(EvePathfinder SHARED ${SRC_FILES})
+target_link_libraries(EvePathfinder PRIVATE BlueExposure)
 
 set(PUBLIC_HEADER_FILES Include/IEvePathfinderGoal.h)
 
