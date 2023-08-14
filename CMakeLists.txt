@@ -78,6 +78,16 @@ if(APPLE)
 endif()
 set_target_properties(EvePathfinder PROPERTIES OUTPUT_NAME "_pyevepathfinder")
 
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    option(BUILD_TESTING "Build and run tests. Enabled by default." ON)
+    include(CTest)
+    if(BUILD_TESTING)
+	    add_subdirectory(tests)
+    endif()
+endif()
+
+
 #install(TARGETS EvePathfinder)
 # Provide an install target iff this is the top level project only
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
