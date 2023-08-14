@@ -45,11 +45,11 @@ class ServerPathfinder(object):
             return 0
 
         if self.AreNotKnownSpaceSystems(fromID, toID):
-            return sys.maxint
+            return sys.maxsize
 
         jc = self._pathfinderCore.GetJumpCountBetween(self._stateInterface, fromID, toID)
         if jc == -1:
-            return sys.maxint
+            return sys.maxsize
         else:
             return jc
 

@@ -1,7 +1,7 @@
 import os
 import sys
 import unittest
-import setupenv
+from . import setupenv
 import pyEvePathfinder
 
 def PenultimateSystemInRoute(r):

@@ -133,7 +133,7 @@ class ClientPathfinder(object):
         waypointListsContainingOnlySystems = self.pathfinderCore.GetListOfWaypointPaths(
             self._autopilotStateInterface,
             self.GetCurrentSystem(),
-            solarSystemWaypoints
+            list(solarSystemWaypoints)
         )
 
         return self.GetCompleteWaypointList(waypointListsContainingOnlySystems, waypoints)
@@ -162,7 +162,7 @@ class ClientPathfinder(object):
             # When travelling within the same system (even wormholes) the distance should always be zero
             return 0
         if not IsKnownSpaceSystem(fromID) or not IsKnownSpaceSystem(toID):
-            return sys.maxint
+            return sys.maxsize
 
         return self.pathfinderCore.GetJumpCountBetween(stateInterface, fromID, toID)
 

@@ -2,10 +2,10 @@ import os
 import sys
 import unittest
 import logging
-import mock
+import unittest.mock as mock
 from collections import defaultdict
 
-import setupenv
+from . import setupenv
 
 import evePathfinder.core
 from evePathfinder.core import PathfinderCacheEntry
@@ -180,9 +180,9 @@ class StatefulPathfinderTestInterface(object):
 
     def GetCurrentStateHash(self, fromSolarSystemID):
         m = hashlib.md5()
-        m.update(str(fromSolarSystemID))
-        m.update(self.routeType)
-        m.update(str(self.avoidanceList))
+        m.update(str(fromSolarSystemID).encode('utf-8'))
+        m.update(self.routeType.encode('utf-8'))
+        m.update(str(self.avoidanceList).encode('utf-8'))
         return m.hexdigest()
 
 def CreateCacheEntry(newStyleMap):
@@ -223,10 +223,11 @@ class testPathfinderCore(unittest.TestCase):
     def testPairSequence(self):
         z = evePathfinder.core.PairSequence([1, 2, 3, 4])
 
-        self.assertEqual(z.next(), (1, 2))
-        self.assertEqual(z.next(), (2, 3))
-        self.assertEqual(z.next(), (3, 4))
-        self.assertRaises(lambda: z.next())
+        self.assertEqual(next(z), (1, 2))
+        self.assertEqual(next(z), (2, 3))
+        self.assertEqual(next(z), (3, 4))
+        with self.assertRaises(StopIteration):
+            next(z)
 
     def testFirstPathfindWithNewPathfinder(self):
         # Find the path from A -> C
@@ -239,7 +240,7 @@ class testPathfinderCore(unittest.TestCase):
         cacheDict = defaultdict(lambda: PathfinderCacheEntry(None, evePathfinder.core.NewPathfinderCache(newStyleMap)))
 
         def GetCachedEntry(stateInterface, fromID):
-            print stateInterface.GetRouteType(), fromID
+            print(stateInterface.GetRouteType(), fromID)
             return cacheDict[(stateInterface.GetRouteType(), fromID)]
 
         core = evePathfinder.core.EvePathfinderCore(newStyleMap)
@@ -363,7 +364,7 @@ class testPathfinderCore(unittest.TestCase):
     def testJumpCountBetweenDisconnectedSystems(self):
         core = CreateSimplePathfinderCore(newMapCreationFunction=CreateSimpleMapWithUnreachableSystem)
 
-        self.assertEqual(core.GetJumpCountBetween(self.stateInterface, 2, 5 ), sys.maxint, "You can't travel from A(2) to D(5)")
+        self.assertEqual(core.GetJumpCountBetween(self.stateInterface, 2, 5 ), sys.maxsize, "You can't travel from A(2) to D(5)")
 
     def testSystemsWithinOneJump(self):
         systems = self.core.GetSystemsWithinJumpRange(self.stateInterface, 2, 1, 2)

@@ -5,8 +5,8 @@ from collections import defaultdict
 log = logging.getLogger(__name__)
 
 import pyEvePathfinder
-from cache import NewPathfinderCache
-import pathfinderconst as const
+from .cache import NewPathfinderCache
+import evePathfinder.pathfinderconst as const
 
 
 class MissingGetCacheEntryMethod(Exception):
@@ -16,7 +16,7 @@ class MissingGetCacheEntryMethod(Exception):
 def PairSequence(s):
     i = iter(s)
 
-    last = i.next()
+    last = next(i)
     for current in i:
         yield (last, current)
         last = current
@@ -135,7 +135,7 @@ class EvePathfinderCore(object):
         for itemID in avoidanceSystems:
             self.newPathfinderGoal.AddAvoidSystem(universe, itemID)
 
-        start = time.clock()
+        start = time.perf_counter()
 
         pyEvePathfinder.FindRoute(
             self.newPathfinderMap,
@@ -145,7 +145,7 @@ class EvePathfinderCore(object):
 
         self.newPathfinderExecutionCount += 1
 
-        log.debug('EvePathfinder pathfind done in: %f ms', (time.clock() - start)*1000)
+        log.debug('EvePathfinder pathfind done in: %f ms', (time.perf_counter() - start)*1000)
 
     def GetCachedEntry(self, stateInterface, fromID):
         """
@@ -250,7 +250,7 @@ class EvePathfinderCore(object):
         systemsWithinJumpCountGenerator = cache.GetSystemsWithinJumpCount(jumpCountMin, jumpCountMax)
 
         m = defaultdict(list)
-        for system, jumpCount in systemsWithinJumpCountGenerator.iteritems():
+        for system, jumpCount in systemsWithinJumpCountGenerator.items():
             m[jumpCount].append(system)
 
         return m
