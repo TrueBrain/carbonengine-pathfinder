@@ -166,7 +166,7 @@ class testEvePathfinder(unittest.TestCase):
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
         self.assertRaises(lambda: lastSystemTo(3))
-        self.assertEquals(lastSystemTo(3), 2)
+        self.assertEqual(lastSystemTo(3), 2)
 
     def testOriginAddWithNoneRaises(self):
         g = pyEvePathfinder.EveStandardFloodFillGoal()
@@ -221,9 +221,9 @@ class testEvePathfinder(unittest.TestCase):
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
         self.assertRaises(lambda: c.GetRouteTo(m, s1))
-        self.assertEquals(lastSystemTo(s3), s2)
-        self.assertEquals(lastSystemTo(s2), s1)
-        #self.assertEquals(lastSystemTo(s3), 2)
+        self.assertEqual(lastSystemTo(s3), s2)
+        self.assertEqual(lastSystemTo(s2), s1)
+        #self.assertEqual(lastSystemTo(s3), 2)
 
     def testSimplePathfindOverBifurcatedPath(self):
         """
@@ -264,10 +264,10 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, g, c)
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
-        self.assertEquals(lastSystemTo(B), A)
-        self.assertEquals(lastSystemTo(C), A)
-        self.assertEquals(lastSystemTo(E), C)
-        self.assertEquals(lastSystemTo(D), B)
+        self.assertEqual(lastSystemTo(B), A)
+        self.assertEqual(lastSystemTo(C), A)
+        self.assertEqual(lastSystemTo(E), C)
+        self.assertEqual(lastSystemTo(D), B)
 
     def testBiDirectionalPathfind(self):
         """
@@ -286,13 +286,13 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, g, c)
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
-        self.assertEquals(lastSystemTo(B), A)
-        self.assertEquals(lastSystemTo(C), A)
+        self.assertEqual(lastSystemTo(B), A)
+        self.assertEqual(lastSystemTo(C), A)
 
-        self.assertEquals(lastSystemTo(E), C)
-        self.assertEquals(lastSystemTo(D), B)
+        self.assertEqual(lastSystemTo(E), C)
+        self.assertEqual(lastSystemTo(D), B)
 
-        self.assertEquals(c.GetRouteTo(m, D), [A, B, D])
+        self.assertEqual(c.GetRouteTo(m, D), [A, B, D])
 
     def testSequentialPathfinding(self):
         """
@@ -322,11 +322,11 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, g, c)
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
-        self.assertEquals(lastSystemTo(C), E)
-        self.assertEquals(lastSystemTo(A), C)
+        self.assertEqual(lastSystemTo(C), E)
+        self.assertEqual(lastSystemTo(A), C)
 
-        self.assertEquals(lastSystemTo(D), E)
-        self.assertEquals(lastSystemTo(B), D)
+        self.assertEqual(lastSystemTo(D), E)
+        self.assertEqual(lastSystemTo(B), D)
 
     def testPathfindingHardLimits(self):
         """
@@ -349,9 +349,9 @@ class testEvePathfinder(unittest.TestCase):
         # cannot visit C, outside of allowed security rating
         self.assertRaises(lambda: c.GetRouteTo(m, C))
 
-        self.assertEquals(lastSystemTo(B), A)
-        self.assertEquals(lastSystemTo(D), B)
-        self.assertEquals(lastSystemTo(E), D)
+        self.assertEqual(lastSystemTo(B), A)
+        self.assertEqual(lastSystemTo(D), B)
+        self.assertEqual(lastSystemTo(E), D)
 
     def testPathfindingSoftLimits(self):
         """
@@ -376,11 +376,11 @@ class testEvePathfinder(unittest.TestCase):
         lastSystemTo = GetLastSystemInRouteFn(m, c)
         # C has a penalty of 3.0. Will be visited from A, but not traversed
         # to E
-        self.assertEquals(lastSystemTo(C), A)
+        self.assertEqual(lastSystemTo(C), A)
 
-        self.assertEquals(lastSystemTo(B), A)
-        self.assertEquals(lastSystemTo(D), B)
-        self.assertEquals(lastSystemTo(E), D)
+        self.assertEqual(lastSystemTo(B), A)
+        self.assertEqual(lastSystemTo(D), B)
+        self.assertEqual(lastSystemTo(E), D)
 
     def testStandardGoalWithNoneOriginRaises(self):
         goal = pyEvePathfinder.EveStandardFloodFillGoal()
@@ -405,7 +405,7 @@ class testEvePathfinder(unittest.TestCase):
         goal.AddOrigin(m, A)
 
         pyEvePathfinder.FindRoute(m, goal, c)
-        self.assertEquals(c.GetRouteTo(m, D), [2, 3, 5])
+        self.assertEqual(c.GetRouteTo(m, D), [2, 3, 5])
 
     def testAvoidSystems(self):
         """
@@ -420,8 +420,8 @@ class testEvePathfinder(unittest.TestCase):
 
         pyEvePathfinder.FindRoute(m, goal, c)
 
-        self.assertEquals(c.GetRouteTo(m, D), [2, 4, 6, 5])
-        self.assertEquals(c.GetJumpCountTo(m, D), 3)
+        self.assertEqual(c.GetRouteTo(m, D), [2, 4, 6, 5])
+        self.assertEqual(c.GetJumpCountTo(m, D), 3)
 
     def testDisconnectedSystem(self):
         m, c, (A, B, C, D, E, X) = CreateStandardBidirectionalMap1()
@@ -432,8 +432,8 @@ class testEvePathfinder(unittest.TestCase):
 
         pyEvePathfinder.FindRoute(m, goal, c)
 
-        self.assertEquals(c.GetRouteTo(m, X), [])
-        self.assertEquals(c.GetJumpCountTo(m, X), -1)
+        self.assertEqual(c.GetRouteTo(m, X), [])
+        self.assertEqual(c.GetJumpCountTo(m, X), -1)
 
     def testGetSystemsWithinASingleJump(self):
         m, c, (A, B, C, D, E, X) = CreateStandardBidirectionalMap1()
@@ -444,7 +444,7 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, goal, c)
 
         systemDistances = c.GetSystemsWithinJumpCount(m, 1, 2)
-        self.assertEquals(systemDistances, {3: 1, 4: 1})
+        self.assertEqual(systemDistances, {3: 1, 4: 1})
 
     def testGetSystemsWithinTwoJumps(self):
         m, c, (A, B, C, D, E, X) = CreateStandardBidirectionalMap1()
@@ -455,7 +455,7 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, goal, c)
 
         systemJumpCounts = c.GetSystemsWithinJumpCount(m, 1, 3)
-        self.assertEquals(systemJumpCounts,
+        self.assertEqual(systemJumpCounts,
                           {3: 1, 4: 1, 5: 2, 6: 2})
 
 

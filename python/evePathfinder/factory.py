@@ -7,6 +7,8 @@ from carbon.common.lib import telemetry
 
 from threadutils.be_nice import be_nice
 from . import core
+import six
+
 
 @telemetry.ZONE_METHOD
 def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_level_func, extraJumps=(), ignoredStargates=()):
@@ -14,14 +16,14 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_
     returns pathinder initialized with an eve map and jump data
     """
     eveMap = pyEvePathfinder.EveMap()
-    for regionID, regionItem in mapRegionCache.iteritems():
+    for regionID, regionItem in six.iteritems(mapRegionCache):
         eveMap.CreateRegion(regionID)
 
         for constellationID in regionItem.constellationIDs:
             eveMap.CreateConstellation(constellationID, regionID)
             be_nice()
 
-    for solarSystemID, ssInfo in mapSystemCache.iteritems():
+    for solarSystemID, ssInfo in six.iteritems(mapSystemCache):
         securityLevel = get_security_level_func(solarSystemID)
         eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, securityLevel)
         be_nice()

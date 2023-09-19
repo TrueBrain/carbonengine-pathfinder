@@ -8,6 +8,9 @@ import sys
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem, IsTriglavianSystem, IsWormholeSystem
 
 
+_MAX_INT = int(2**31 - 1)
+
+
 class ClientPathfinder(object):
     def __init__(self, pathfinderCore, standardStateInterface, autopilotStateInterface,
                  convertStationIDToSolarSystemIDIfNecessaryMethod, getCurrentSystemMethod):
@@ -129,7 +132,7 @@ class ClientPathfinder(object):
         return completeWaypointList
 
     def GetWaypointPath(self, waypoints):
-        solarSystemWaypoints = map(self.ConvertStationIDToSolarSystemIDIfNecessary, waypoints)
+        solarSystemWaypoints = list(map(self.ConvertStationIDToSolarSystemIDIfNecessary, waypoints))
         waypointListsContainingOnlySystems = self.pathfinderCore.GetListOfWaypointPaths(
             self._autopilotStateInterface,
             self.GetCurrentSystem(),
@@ -162,7 +165,7 @@ class ClientPathfinder(object):
             # When travelling within the same system (even wormholes) the distance should always be zero
             return 0
         if not IsKnownSpaceSystem(fromID) or not IsKnownSpaceSystem(toID):
-            return sys.maxint
+            return _MAX_INT
 
         return self.pathfinderCore.GetJumpCountBetween(stateInterface, fromID, toID)
 

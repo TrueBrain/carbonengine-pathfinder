@@ -1,12 +1,13 @@
 """
 A server implementation of a pathfinder service. Provides the interface and caching strategy.
 """
-import sys
 from copy import copy
 from collections import defaultdict
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
+import six
 
+_MAX_INT = int(2**31 - 1)
 
 class ServerPathfinder(object):
     def __init__(self, pathfinderCore, stateInterface, isWithinSecIntervalFunc):
@@ -45,11 +46,11 @@ class ServerPathfinder(object):
             return 0
 
         if self.AreNotKnownSpaceSystems(fromID, toID):
-            return sys.maxint
+            return _MAX_INT
 
         jc = self._pathfinderCore.GetJumpCountBetween(self._stateInterface, fromID, toID)
         if jc == -1:
-            return sys.maxint
+            return _MAX_INT
         else:
             return jc
 
@@ -60,7 +61,7 @@ class ServerPathfinder(object):
             secMax = 1.0
         filteredSystemsByJumpRange = {}
 
-        for jumpRange, solarSystems in systemsByJumpRange.iteritems():
+        for jumpRange, solarSystems in six.iteritems(systemsByJumpRange):
             filteredSystems = []
             for solarSystemID in solarSystems:
                 if self.IsWithinSecInterval(solarSystemID, secMin, secMax):
