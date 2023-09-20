@@ -1,12 +1,13 @@
 import time
 import logging
 from collections import defaultdict
+import six
 
 log = logging.getLogger(__name__)
 
 import pyEvePathfinder
-from cache import NewPathfinderCache
-import pathfinderconst as const
+from .cache import NewPathfinderCache
+from . import pathfinderconst as const
 
 
 class MissingGetCacheEntryMethod(Exception):
@@ -16,7 +17,7 @@ class MissingGetCacheEntryMethod(Exception):
 def PairSequence(s):
     i = iter(s)
 
-    last = i.next()
+    last = next(i)
     for current in i:
         yield (last, current)
         last = current
@@ -250,7 +251,7 @@ class EvePathfinderCore(object):
         systemsWithinJumpCountGenerator = cache.GetSystemsWithinJumpCount(jumpCountMin, jumpCountMax)
 
         m = defaultdict(list)
-        for system, jumpCount in systemsWithinJumpCountGenerator.iteritems():
+        for system, jumpCount in six.iteritems(systemsWithinJumpCountGenerator):
             m[jumpCount].append(system)
 
         return m
