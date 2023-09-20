@@ -12,6 +12,7 @@ from evePathfinder.core import PathfinderCacheEntry
 import pyEvePathfinder
 import evePathfinder.cache
 from evePathfinder.pathfinderconst import *
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 import math
 import hashlib
 
@@ -20,8 +21,6 @@ try:
     geventAvailable = True
 except ImportError:
     geventAvailable = False
-
-_MAX_INT = int(2**31 - 1)
 
 
 def CreateSimpleNewStyleMapData():
@@ -365,7 +364,7 @@ class testPathfinderCore(unittest.TestCase):
     def testJumpCountBetweenDisconnectedSystems(self):
         core = CreateSimplePathfinderCore(newMapCreationFunction=CreateSimpleMapWithUnreachableSystem)
 
-        self.assertEqual(core.GetJumpCountBetween(self.stateInterface, 2, 5 ), _MAX_INT, "You can't travel from A(2) to D(5)")
+        self.assertEqual(core.GetJumpCountBetween(self.stateInterface, 2, 5 ), UNREACHABLE_JUMP_COUNT, "You can't travel from A(2) to D(5)")
 
     def testSystemsWithinOneJump(self):
         systems = self.core.GetSystemsWithinJumpRange(self.stateInterface, 2, 1, 2)

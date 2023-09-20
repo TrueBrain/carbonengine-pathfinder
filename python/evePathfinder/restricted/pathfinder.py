@@ -5,9 +5,9 @@ from copy import copy
 from collections import defaultdict
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 import six
 
-_MAX_INT = int(2**31 - 1)
 
 class ServerPathfinder(object):
     def __init__(self, pathfinderCore, stateInterface, isWithinSecIntervalFunc):
@@ -46,11 +46,11 @@ class ServerPathfinder(object):
             return 0
 
         if self.AreNotKnownSpaceSystems(fromID, toID):
-            return _MAX_INT
+            return UNREACHABLE_JUMP_COUNT
 
         jc = self._pathfinderCore.GetJumpCountBetween(self._stateInterface, fromID, toID)
         if jc == -1:
-            return _MAX_INT
+            return UNREACHABLE_JUMP_COUNT
         else:
             return jc
 
