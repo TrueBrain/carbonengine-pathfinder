@@ -1,4 +1,3 @@
-from __future__ import print_function
 import os
 import sys
 import unittest
@@ -243,7 +242,6 @@ class testPathfinderCore(unittest.TestCase):
         cacheDict = defaultdict(lambda: PathfinderCacheEntry(None, evePathfinder.core.NewPathfinderCache(newStyleMap)))
 
         def GetCachedEntry(stateInterface, fromID):
-            print((stateInterface.GetRouteType(), fromID))
             return cacheDict[(stateInterface.GetRouteType(), fromID)]
 
         core = evePathfinder.core.EvePathfinderCore(newStyleMap)
