@@ -15,7 +15,7 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_
     returns pathinder initialized with an eve map and jump data
     """
     eveMap = pyEvePathfinder.EveMap()
-    for regionID, regionItem in mapRegionCache.iteritems():
+    for regionID, regionItem in mapRegionCache.items():
         eveMap.CreateRegion(regionID)
 
         for constellationID in regionItem.constellationIDs:
