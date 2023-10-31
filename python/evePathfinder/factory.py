@@ -22,7 +22,7 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_
             eveMap.CreateConstellation(constellationID, regionID)
             be_nice()
 
-    for solarSystemID, ssInfo in mapSystemCache.iteritems():
+    for solarSystemID, ssInfo in mapSystemCache.items():
         securityLevel = get_security_level_func(solarSystemID)
         eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, securityLevel)
         be_nice()
