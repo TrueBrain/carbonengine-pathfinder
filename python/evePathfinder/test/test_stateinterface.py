@@ -22,11 +22,13 @@ class AutopilotStateInterfaceTestCase(unittest.TestCase):
         self.uiSettings.Set.side_effect = self.settings.__setitem__
         self.updatePodKills = mock.Mock()
         self.getTriglavianTalesToAvoid = mock.Mock()
+        self.getEdencomSystemsToAvoid = mock.Mock()
         self.mapSvc = mock.Mock()
         self.stateInterface = AutopilotPathfinderInterface(
             self.mapSvc,
             self.updatePodKills,
             self.getTriglavianTalesToAvoid,
+            self.getEdencomSystemsToAvoid,
             self.uiSettings,
         )
 
