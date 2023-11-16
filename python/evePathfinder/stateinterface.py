@@ -10,10 +10,12 @@ from evePathfinder.pathfinderconst import ROUTE_TYPE_SAFE
 from evePathfinder.pathfinderconst import DEFAULT_SECURITY_PENALTY_VALUE
 from evePathfinder.pathfinderconst import SECURITY_PENALTY_FACTOR
 from evePathfinder.pathfinderconst import DEFAULT_SECURITY_PENALTY
+from inventorycommon.const import solarSystemJita, solarSystemZarzakh
 
 # Systems that the autopilot will avoid by default
 DEFAULT_AVOIDANCE = [
-    30000142,  # Jita
+    solarSystemJita,
+    solarSystemZarzakh,
 ]
 
 
