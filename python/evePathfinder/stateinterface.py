@@ -13,16 +13,15 @@ from evePathfinder.pathfinderconst import DEFAULT_SECURITY_PENALTY
 
 # Systems that the autopilot will avoid by default
 DEFAULT_AVOIDANCE = [
-    30000142,  # Jita
 ]
 
 
 def GetCurrentStateHash(stateInterface, fromSolarSystemID):
     m = hashlib.md5()
-    m.update(str(fromSolarSystemID))
-    m.update(stateInterface.GetRouteType())
-    m.update(str(stateInterface.GetSecurityPenalty()))
-    m.update(str(stateInterface.GetAvoidanceList()))
+    m.update(str(fromSolarSystemID).encode('utf-8'))
+    m.update(stateInterface.GetRouteType().encode('utf-8'))
+    m.update(str(stateInterface.GetSecurityPenalty()).encode('utf-8'))
+    m.update(str(stateInterface.GetAvoidanceList()).encode('utf-8'))
     return m.hexdigest()
 
 
