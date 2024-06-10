@@ -41,7 +41,7 @@ class ServerPathfinderTestCase(unittest.TestCase):
         self.serverPathfinder.GetPathBetweenForRouteType(self.fromID, self.toID, ROUTE_TYPE_UNSAFE_AND_NULL)
         calls = self.pathfinderCore.GetPathBetween.call_args
         (stateInterface, fromID, toID), b = calls
-        stateInterface.SetRouteType.assert_called_once(ROUTE_TYPE_UNSAFE_AND_NULL)
+        stateInterface.SetRouteType.assert_called_once_with(ROUTE_TYPE_UNSAFE_AND_NULL)
 
     @mock.patch("evePathfinder.restricted.pathfinder.IsKnownSpaceSystem")
     def testGetPathBetweenForRouteTypeToWormholeSpace(self, isKnownSpaceSystem):

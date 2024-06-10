@@ -60,7 +60,7 @@ class ServerPathfinder(object):
             secMax = 1.0
         filteredSystemsByJumpRange = {}
 
-        for jumpRange, solarSystems in systemsByJumpRange.iteritems():
+        for jumpRange, solarSystems in systemsByJumpRange.items():
             filteredSystems = []
             for solarSystemID in solarSystems:
                 if self.IsWithinSecInterval(solarSystemID, secMin, secMax):

@@ -26,6 +26,6 @@ class ServerPathfinderInterface(object):
 
     def GetCurrentStateHash(self, fromSolarSystemID):
         m = hashlib.md5()
-        m.update(str(fromSolarSystemID))
-        m.update(self.GetRouteType())
+        m.update(str(fromSolarSystemID).encode('utf-8'))
+        m.update(self.GetRouteType().encode('utf-8'))
         return m.hexdigest()
