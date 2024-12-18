@@ -21,7 +21,6 @@ include(CcpPackageConfigHelpers)
 
 find_package(Python REQUIRED NO_CMAKE_PATH)
 find_package(BlueExposure REQUIRED NO_CMAKE_PATH)
-find_package(RadGameToolsTelemetry REQUIRED)
 find_package(CcpCore REQUIRED NO_CMAKE_PATH)
 
 set(SRC_FILES
