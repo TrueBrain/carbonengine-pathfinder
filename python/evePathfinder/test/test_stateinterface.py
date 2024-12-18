@@ -1,5 +1,5 @@
 import unittest
-import mock
+import unittest.mock as mock
 
 from evePathfinder.stateinterface import AutopilotPathfinderInterface, DEFAULT_AVOIDANCE
 
@@ -22,13 +22,15 @@ class AutopilotStateInterfaceTestCase(unittest.TestCase):
         self.uiSettings.Set.side_effect = self.settings.__setitem__
         self.updatePodKills = mock.Mock()
         self.getTriglavianTalesToAvoid = mock.Mock()
-        self.getEdencomSystemsToAvoid = mock.Mock()
+        self.getTriglavianTalesToAvoid.return_value = []
         self.mapSvc = mock.Mock()
+        self.edencomSystemsAvoidanceList = mock.Mock()
+        self.edencomSystemsAvoidanceList.return_value = []
         self.stateInterface = AutopilotPathfinderInterface(
             self.mapSvc,
             self.updatePodKills,
             self.getTriglavianTalesToAvoid,
-            self.getEdencomSystemsToAvoid,
+            self.edencomSystemsAvoidanceList,
             self.uiSettings,
         )
 

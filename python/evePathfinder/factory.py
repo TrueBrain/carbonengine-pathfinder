@@ -16,14 +16,14 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_
     returns pathinder initialized with an eve map and jump data
     """
     eveMap = pyEvePathfinder.EveMap()
-    for regionID, regionItem in six.iteritems(mapRegionCache):
+    for regionID, regionItem in mapRegionCache.items():
         eveMap.CreateRegion(regionID)
 
         for constellationID in regionItem.constellationIDs:
             eveMap.CreateConstellation(constellationID, regionID)
             be_nice()
 
-    for solarSystemID, ssInfo in six.iteritems(mapSystemCache):
+    for solarSystemID, ssInfo in mapSystemCache.items():
         securityLevel = get_security_level_func(solarSystemID)
         eveMap.CreateSolarSystem(solarSystemID, ssInfo.constellationID, securityLevel)
         be_nice()

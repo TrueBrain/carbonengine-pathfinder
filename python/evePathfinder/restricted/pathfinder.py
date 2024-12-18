@@ -46,11 +46,11 @@ class ServerPathfinder(object):
             return 0
 
         if self.AreNotKnownSpaceSystems(fromID, toID):
-            return UNREACHABLE_JUMP_COUNT
+            return sys.maxsize
 
         jc = self._pathfinderCore.GetJumpCountBetween(self._stateInterface, fromID, toID)
         if jc == -1:
-            return UNREACHABLE_JUMP_COUNT
+            return sys.maxsize
         else:
             return jc
 
@@ -60,8 +60,7 @@ class ServerPathfinder(object):
         if secMax is None:
             secMax = 1.0
         filteredSystemsByJumpRange = {}
-
-        for jumpRange, solarSystems in six.iteritems(systemsByJumpRange):
+        for jumpRange, solarSystems in systemsByJumpRange.items():
             filteredSystems = []
             for solarSystemID in solarSystems:
                 if self.IsWithinSecInterval(solarSystemID, secMin, secMax):

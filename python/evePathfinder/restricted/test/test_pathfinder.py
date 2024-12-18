@@ -1,5 +1,5 @@
 import unittest
-import mock
+import unittest.mock as mock
 
 from evePathfinder.restricted.pathfinder import ServerPathfinder
 from evePathfinder.pathfinderconst import ROUTE_TYPE_UNSAFE_AND_NULL
@@ -41,7 +41,7 @@ class ServerPathfinderTestCase(unittest.TestCase):
         self.serverPathfinder.GetPathBetweenForRouteType(self.fromID, self.toID, ROUTE_TYPE_UNSAFE_AND_NULL)
         calls = self.pathfinderCore.GetPathBetween.call_args
         (stateInterface, fromID, toID), b = calls
-        stateInterface.SetRouteType.assert_called_once(ROUTE_TYPE_UNSAFE_AND_NULL)
+        stateInterface.SetRouteType.assert_called_once_with(ROUTE_TYPE_UNSAFE_AND_NULL)
 
     @mock.patch("evePathfinder.restricted.pathfinder.IsKnownSpaceSystem")
     def testGetPathBetweenForRouteTypeToWormholeSpace(self, isKnownSpaceSystem):
@@ -61,14 +61,14 @@ class ServerPathfinderTestCase(unittest.TestCase):
         isKnownSpaceSystem.side_effect = [True, True]
         self.pathfinderCore.GetJumpCountBetween.return_value = -1
         count = self.serverPathfinder.GetJumpCount(self.fromID, self.toID)
-        self.assertEqual(UNREACHABLE_JUMP_COUNT, count)
+        self.assertEqual(sys.maxsize, count)
         self.pathfinderCore.GetJumpCountBetween.assert_called_once_with(self.stateInterface, self.fromID, self.toID)
 
     @mock.patch("evePathfinder.restricted.pathfinder.IsKnownSpaceSystem")
     def testGetJumpCountToWormholeSpace(self, isKnownSpaceSystem):
         isKnownSpaceSystem.side_effect = [True, False]
         count = self.serverPathfinder.GetJumpCount(self.fromID, self.toID)
-        self.assertEqual(UNREACHABLE_JUMP_COUNT, count)
+        self.assertEqual(sys.maxsize, count)
         self.pathfinderCore.GetJumpCountBetween.assert_has_calls([])
 
     @mock.patch("evePathfinder.restricted.pathfinder.IsKnownSpaceSystem")
