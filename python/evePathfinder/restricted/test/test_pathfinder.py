@@ -1,9 +1,9 @@
-import sys
 import unittest
 import unittest.mock as mock
 
 from evePathfinder.restricted.pathfinder import ServerPathfinder
 from evePathfinder.pathfinderconst import ROUTE_TYPE_UNSAFE_AND_NULL
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 
 
 class ServerPathfinderTestCase(unittest.TestCase):

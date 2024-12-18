@@ -12,6 +12,7 @@ from evePathfinder.core import PathfinderCacheEntry
 import pyEvePathfinder
 import evePathfinder.cache
 from evePathfinder.pathfinderconst import *
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 import math
 import hashlib
 
@@ -20,6 +21,7 @@ try:
     geventAvailable = True
 except ImportError:
     geventAvailable = False
+
 
 def CreateSimpleNewStyleMapData():
     '''
@@ -240,7 +242,6 @@ class testPathfinderCore(unittest.TestCase):
         cacheDict = defaultdict(lambda: PathfinderCacheEntry(None, evePathfinder.core.NewPathfinderCache(newStyleMap)))
 
         def GetCachedEntry(stateInterface, fromID):
-            print(stateInterface.GetRouteType(), fromID)
             return cacheDict[(stateInterface.GetRouteType(), fromID)]
 
         core = evePathfinder.core.EvePathfinderCore(newStyleMap)

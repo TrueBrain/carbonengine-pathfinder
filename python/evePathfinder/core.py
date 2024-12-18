@@ -1,6 +1,7 @@
 import time
 import logging
 from collections import defaultdict
+import six
 
 log = logging.getLogger(__name__)
 

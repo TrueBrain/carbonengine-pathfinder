@@ -1,11 +1,12 @@
 """
 A server implementation of a pathfinder service. Provides the interface and caching strategy.
 """
-import sys
 from copy import copy
 from collections import defaultdict
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
+import six
 
 
 class ServerPathfinder(object):
@@ -59,7 +60,6 @@ class ServerPathfinder(object):
         if secMax is None:
             secMax = 1.0
         filteredSystemsByJumpRange = {}
-
         for jumpRange, solarSystems in systemsByJumpRange.items():
             filteredSystems = []
             for solarSystemID in solarSystems:

@@ -7,10 +7,11 @@ from carbon.common.lib import telemetry
 
 from threadutils.be_nice import be_nice
 from . import core
+import six
 
 
 @telemetry.ZONE_METHOD
-def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_level_func, extraJumps=()):
+def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_level_func, extraJumps=(), ignoredStargates=()):
     """
     returns pathinder initialized with an eve map and jump data
     """
@@ -29,8 +30,10 @@ def CreatePathfinder(mapRegionCache, mapSystemCache, mapJumpCache, get_security_
 
     # Once populated, create the jumps
     for jump in mapJumpCache:
-        eveMap.AddJump(jump.fromSystemID, jump.toSystemID, jump.stargateID)
-        eveMap.AddJump(jump.toSystemID, jump.fromSystemID, jump.stargateID)  # <-- TODO: stargateID wrong!)
+        if jump.stargateID not in ignoredStargates:
+            eveMap.AddJump(jump.fromSystemID, jump.toSystemID, jump.stargateID)
+            eveMap.AddJump(jump.toSystemID, jump.fromSystemID, jump.stargateID)  # <-- TODO: stargateID wrong!)
+
         be_nice()
 
     for fromSystemID, toSystemID, stargateID in extraJumps:

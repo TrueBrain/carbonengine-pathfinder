@@ -6,6 +6,7 @@ from collections import defaultdict
 import sys
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem, IsTriglavianSystem, IsWormholeSystem
+from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 
 
 class ClientPathfinder(object):
@@ -129,7 +130,7 @@ class ClientPathfinder(object):
         return completeWaypointList
 
     def GetWaypointPath(self, waypoints):
-        solarSystemWaypoints = map(self.ConvertStationIDToSolarSystemIDIfNecessary, waypoints)
+        solarSystemWaypoints = list(map(self.ConvertStationIDToSolarSystemIDIfNecessary, waypoints))
         waypointListsContainingOnlySystems = self.pathfinderCore.GetListOfWaypointPaths(
             self._autopilotStateInterface,
             self.GetCurrentSystem(),

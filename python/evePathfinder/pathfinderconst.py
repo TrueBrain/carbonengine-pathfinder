@@ -2,7 +2,6 @@
 These are common constants used by the evePathfinder modules
 """
 import math
-import sys
 
 # pathfinder route types
 ROUTE_TYPE_SAFE = "safe"  # sec level interval [0.45, 1.0]
