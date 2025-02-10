@@ -3,20 +3,6 @@ import unittest
 
 sys.modules['pyEvePathfinder'] = sys
 
-
-class MockTasklet:
-    def __init__(*args, **kwargs):
-        pass
-
-class MockTaskletExt:
-    def __init__(*args, **kwargs):
-        pass
-
-class MockTaskletExit:
-    def __init__(*args, **kwargs):
-        pass
-
-
 def print_suite(suite):
     if hasattr(suite, '_exception'):
         print(suite._exception)
