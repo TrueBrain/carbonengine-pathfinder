@@ -3,10 +3,9 @@ A server implementation of a pathfinder service. Provides the interface and cach
 """
 from copy import copy
 from collections import defaultdict
+import sys
 
 from eve.common.script.sys.idCheckers import IsKnownSpaceSystem
-from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
-import six
 
 
 class ServerPathfinder(object):

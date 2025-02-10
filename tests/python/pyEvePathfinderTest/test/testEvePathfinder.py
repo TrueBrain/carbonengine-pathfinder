@@ -1,8 +1,6 @@
-import os
-import sys
 import unittest
-from . import setupenv
 import pyEvePathfinder
+
 
 def PenultimateSystemInRoute(r):
     return r[-2]
@@ -80,7 +78,7 @@ class testEvePathfinder(unittest.TestCase):
         try:
             import blue
 
-            raise unittest.SkipTest("Tests not intended to run under blue")
+            raise unittest.SkipTest("Tests not intended to run under blue")  # TODO: Why are we ignoring the tests? Check to see if we can re-enable them. PLAT-8369
         except ImportError:
             pass
 
@@ -165,7 +163,7 @@ class testEvePathfinder(unittest.TestCase):
         pyEvePathfinder.FindRoute(m, g, c)
         lastSystemTo = GetLastSystemInRouteFn(m, c)
 
-        self.assertRaises(lambda: lastSystemTo(3))
+        self.assertRaises(lambda: lastSystemTo(3))  # Is this needed?
         self.assertEqual(lastSystemTo(3), 2)
 
     def testOriginAddWithNoneRaises(self):

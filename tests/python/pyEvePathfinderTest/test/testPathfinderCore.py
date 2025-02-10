@@ -1,18 +1,13 @@
-import os
-import sys
 import unittest
 import logging
 import unittest.mock as mock
 from collections import defaultdict
-
-from . import setupenv
 
 import evePathfinder.core
 from evePathfinder.core import PathfinderCacheEntry
 import pyEvePathfinder
 import evePathfinder.cache
 from evePathfinder.pathfinderconst import *
-from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 import math
 import hashlib
 

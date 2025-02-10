@@ -2,8 +2,6 @@ import unittest
 import unittest.mock as mock
 import sys
 from evePathfinder.pathfinder import ClientPathfinder
-from evePathfinder.pathfinderconst import ROUTE_TYPE_UNSAFE_AND_NULL
-from evePathfinder.pathfinderconst import UNREACHABLE_JUMP_COUNT
 
 
 class ClientPathfinderTestCase(unittest.TestCase):
