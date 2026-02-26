@@ -120,12 +120,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
             DEPENDENCIES ""
         )
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/EvePathfinderConfig.cmake DESTINATION .)
-
-        # Install python package
-        install(DIRECTORY python/ DESTINATION python
-         FILES_MATCHING
-         PATTERN "*.py"
-        )
     else()
         # Install rule to ensure that our runtime and linker files are in the expected, platform-specific folders
         install(
@@ -140,13 +134,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
         install(EXPORT EvePathfinderTargets
                 DESTINATION share/carbon-pathfinder
                 FILE carbon-pathfinderConfig.cmake
-        )
-
-        # Install python package
-        install(DIRECTORY python/evePathfinder DESTINATION bin/python/
-                FILES_MATCHING
-                PATTERN "*.py"
-                PATTERN "package.yaml"
         )
     endif()
 endif()
