@@ -64,7 +64,7 @@ set_target_properties(EvePathfinder PROPERTIES OUTPUT_NAME "_pyevepathfinder")
 
 if(WIN32)
     if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-        option(BUILD_TESTING "Build and run tests. Disabled by default, as they require eve game code from perforce." OFF)
+        option(BUILD_TESTING "Build and run tests" ON)
         include(CTest)
         if(BUILD_TESTING)
             find_package(carbon-exefile-interpreter REQUIRED CONFIG)
