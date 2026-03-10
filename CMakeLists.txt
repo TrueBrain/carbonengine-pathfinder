@@ -64,12 +64,37 @@ set_target_properties(EvePathfinder PROPERTIES OUTPUT_NAME "_pyevepathfinder")
 
 if(WIN32)
     if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-        option(BUILD_TESTING "Build and run tests. Disabled by default, as they require eve game code from perforce." OFF)
+        option(BUILD_TESTING "Build and run tests" ON)
         include(CTest)
         if(BUILD_TESTING)
-            set(ENV{PYTHONPATH} ${CMAKE_CURRENT_SOURCE_DIR}/python)
-            set(PYTHON_EXECUTABLE "${BRANCH_ROOT_DIR}/eve/server/pythonInterpreter.bat")
-            execute_process(COMMAND ${PYTHON_EXECUTABLE} discover.py
+            find_package(carbon-exefile-interpreter REQUIRED CONFIG)
+            ccp_prepare_interpreter(
+                    TARGET EvePathfinder
+                    BUILD_TYPE ${CMAKE_BUILD_TYPE}
+                    COMMAND_OUT EXEFILE_INTERPRETER
+                    PYTHONPATH_OUT PYTHONPATH
+                    RUN_DIR $<TARGET_FILE_DIR:EvePathfinder>
+                    BLUE_DIR_OUT BLUE_LOCATION_DIR
+            )
+
+            if (WIN32)
+                set(PYTHONPATH "${PYTHONPATH}\;$<TARGET_FILE_DIR:EvePathfinder>\;${CMAKE_CURRENT_SOURCE_DIR}/python")
+            elseif(APPLE)
+                set(PYTHONPATH "${PYTHONPATH}:$<TARGET_FILE_DIR:EvePathfinder>:${CMAKE_CURRENT_SOURCE_DIR}/python")
+            endif ()
+
+            if (WIN32)
+                add_custom_command(
+                        TARGET EvePathfinder POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:EvePathfinder> $<TARGET_FILE_DIR:EvePathfinder>
+                        COMMAND_EXPAND_LISTS
+                )
+            endif ()
+
+            find_package(Python)
+
+            execute_process(
+                    COMMAND ${Python3_EXECUTABLE} discover.py
                     OUTPUT_VARIABLE PYTHON_TESTS_STR
                     OUTPUT_STRIP_TRAILING_WHITESPACE
                     ERROR_STRIP_TRAILING_WHITESPACE
@@ -77,17 +102,19 @@ if(WIN32)
                     ERROR_VARIABLE PYTHON_TEST_DISCOVERY_ERRORS
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/python
             )
+
             if(${PYTHON_TEST_DISCOVERY_RETVAL})
                 message(FATAL_ERROR "Error encountered during test discovery:\n=== stderr: ===\n${PYTHON_TEST_DISCOVERY_ERRORS}\n=== stdout: ===\n${PYTHON_TESTS_STR}")
             endif()
             separate_arguments(PYTHON_TESTS UNIX_COMMAND ${PYTHON_TESTS_STR})
             foreach(PYTHON_TEST ${PYTHON_TESTS})
+                message(STATUS "adding test ${PYTHON_TEST}")
                 add_test(NAME ${PYTHON_TEST}
-                    COMMAND ${PYTHON_EXECUTABLE} -m unittest -v ${PYTHON_TEST}
+                    COMMAND ${EXEFILE_INTERPRETER} /inherit /buildflavor=$<LOWER_CASE:$<CONFIG>> /py -m unittest -v ${PYTHON_TEST}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests/python
                 )
                 set_tests_properties(${PYTHON_TEST} PROPERTIES
-                    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:EvePathfinder>\;${CMAKE_CURRENT_SOURCE_DIR}/python;BUILDFLAVOR=$<LOWER_CASE:$<CONFIG>>"
+                    ENVIRONMENT "PYTHONPATH=${PYTHONPATH};BUILDFLAVOR=$<LOWER_CASE:$<CONFIG>>"
                 )
             endforeach()
         endif()
