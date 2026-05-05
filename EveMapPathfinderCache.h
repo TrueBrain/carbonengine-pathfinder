@@ -1,3 +1,5 @@
+// Copyright © 2014 CCP ehf.
+
 #pragma once
 #ifndef EveMapPathfinderCache_h
 #define EveMapPathfinderCache_h

@@ -1,3 +1,5 @@
+// Copyright © 2014 CCP ehf.
+
 #pragma once
 #ifndef PResultBeResult_h
 #define PResultBeResult_h

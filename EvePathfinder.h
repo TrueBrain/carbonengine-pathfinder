@@ -1,3 +1,5 @@
+// Copyright © 2014 CCP ehf.
+
 #pragma once
 #ifndef EvePathfinder_h
 #define EvePathfinder_h

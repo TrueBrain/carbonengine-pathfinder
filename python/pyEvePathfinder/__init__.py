@@ -1,4 +1,4 @@
-# Copyright (c) CCP 2012
+# Copyright © 2012 CCP ehf.
 
 """
 Wrapper module to access blue exposed things from EVE's pyEvePathfinder DLL.

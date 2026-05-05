@@ -1,9 +1,4 @@
-////////////////////////////////////////////////////////////
-//
-//    Creator:   Daniel Speed
-//    Created:   August 2012
-//    Copyright: CCP 2010
-//
+// Copyright © 2010 CCP ehf.
 
 #pragma once
 #ifndef EveMapNodes_H
