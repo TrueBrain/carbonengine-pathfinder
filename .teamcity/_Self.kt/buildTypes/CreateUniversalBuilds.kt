@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // Copyright © 2026 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 package _Self.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.*

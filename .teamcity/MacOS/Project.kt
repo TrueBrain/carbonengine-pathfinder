@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 package MacOS
 
 import jetbrains.buildServer.configs.kotlin.DslContext
@@ -152,7 +155,11 @@ class CarbonBuildMacOS(buildName: String, configType: String, preset: String, ag
             vcsRootExtId = "${DslContext.settingsRootId.id}"
             provider = github {
                 authType = token {
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
                 }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
@@ -161,7 +168,11 @@ class CarbonBuildMacOS(buildName: String, configType: String, preset: String, ag
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
                 }
             }
         }

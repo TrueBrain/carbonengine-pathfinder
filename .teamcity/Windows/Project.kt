@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 package Windows
 
 import jetbrains.buildServer.configs.kotlin.DslContext
@@ -91,7 +94,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
             scriptContent = """
                 REM unfortunately ninja does not find the VS environment otherwise
                 REM NB: the exported PATH also contains the location where we installed sentry-cli, e.g. teamcity.agent.work.dir
+<<<<<<< HEAD
                 call "%%ProgramFiles(x86)%%\Microsoft Visual Studio\2017\BuildTools\Common7\Tools\vsdevcmd.bat" -arch=x64
+=======
+                call "%env.VSDEV_BAT_PATH%" -arch=x64
+>>>>>>> template/carbonengine/pathfinder-updates
                 echo ##teamcity[setParameter name='env.INCLUDE' value='%%INCLUDE%%']
                 echo ##teamcity[setParameter name='env.LIB' value='%%LIB%%']
                 echo ##teamcity[setParameter name='env.LIBPATH' value='%%LIBPATH%%']
@@ -208,7 +215,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
             vcsRootExtId = "${DslContext.settingsRootId.id}"
             provider = github {
                 authType = token {
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
                 }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
@@ -217,7 +228,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
                 }
             }
         }
