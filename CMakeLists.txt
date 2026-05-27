@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Copyright © 2021 CCP ehf.
 
 cmake_minimum_required(VERSION 3.16)
@@ -44,6 +45,8 @@ set(PUBLIC_HEADER_FILES Include/IEvePathfinderGoal.h)
 
 get_target_property(_SOURCES EvePathfinder SOURCES)
 =======
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 cmake_minimum_required(VERSION 3.16)
 project(CarbonTemplateProject VERSION 1.0.0)
 
@@ -53,12 +56,16 @@ include(cmake/CcpTargetConfigurations.cmake)
 ccp_add_library(target_name SHARED)
 
 get_target_property(_SOURCES target_name SOURCES)
+<<<<<<< HEAD
+>>>>>>> template/carbonengine/pathfinder-updates
+=======
 >>>>>>> template/carbonengine/pathfinder-updates
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}"
         PREFIX "Sources"
         FILES ${_SOURCES}
 )
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 target_compile_definitions(EvePathfinder PRIVATE BLUEBUILD)
 
@@ -180,6 +187,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 =======
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 set_target_properties(target_name PROPERTIES OUTPUT_NAME "_target_name")
 
 target_include_directories(target_name
@@ -272,5 +281,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
     install(DIRECTORY include DESTINATION . FILES_MATCHING PATTERN "*.h")
 
+<<<<<<< HEAD
+endif()
+>>>>>>> template/carbonengine/pathfinder-updates
+=======
 endif()
 >>>>>>> template/carbonengine/pathfinder-updates
