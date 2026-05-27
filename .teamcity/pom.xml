@@ -3,9 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <name>Carbon Pathfinder Config DSL Script</name>
   <groupId>Carbon_Pathfinder</groupId>
   <artifactId>Carbon_Pathfinder_dsl</artifactId>
+=======
+  <name>Carbon Template Config DSL Script</name>
+  <groupId>Carbon_Template</groupId>
+  <artifactId>Carbon_Template_dsl</artifactId>
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
   <name>Carbon Template Config DSL Script</name>
   <groupId>Carbon_Template</groupId>

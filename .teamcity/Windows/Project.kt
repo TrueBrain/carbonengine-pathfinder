@@ -1,7 +1,10 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
 >>>>>>> template/carbonengine/pathfinder-updates
 =======
@@ -49,7 +52,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
     this.name = buildName
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     artifactRules = "%env.CMAKE_INSTALL_PREFIX%"
+=======
+    artifactRules = "%env.CMAKE_INSTALL_PREFIX% => artifact.zip"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
     artifactRules = "%env.CMAKE_INSTALL_PREFIX% => artifact.zip"
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -103,7 +110,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
                 REM NB: the exported PATH also contains the location where we installed sentry-cli, e.g. teamcity.agent.work.dir
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 call "%%ProgramFiles(x86)%%\Microsoft Visual Studio\2017\BuildTools\Common7\Tools\vsdevcmd.bat" -arch=x64
+=======
+                call "%env.VSDEV_BAT_PATH%" -arch=x64
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
                 call "%env.VSDEV_BAT_PATH%" -arch=x64
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -228,7 +239,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
                 authType = token {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
                     token = "%GITHUB_CARBON_PAT%"
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -245,7 +260,11 @@ class CarbonBuildWindows(buildName: String, configType: String, preset: String) 
                 authType = personalToken {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
                     token = "%GITHUB_CARBON_PAT%"
 >>>>>>> template/carbonengine/pathfinder-updates

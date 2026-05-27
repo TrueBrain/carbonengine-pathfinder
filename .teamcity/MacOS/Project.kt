@@ -1,7 +1,10 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
 >>>>>>> template/carbonengine/pathfinder-updates
 =======
@@ -60,7 +63,11 @@ class CarbonBuildMacOS(buildName: String, configType: String, preset: String, ag
     name = buildName
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     artifactRules = "%env.CMAKE_INSTALL_PREFIX%"
+=======
+    artifactRules = "%env.CMAKE_INSTALL_PREFIX% => artifact.zip"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
     artifactRules = "%env.CMAKE_INSTALL_PREFIX% => artifact.zip"
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -164,7 +171,11 @@ class CarbonBuildMacOS(buildName: String, configType: String, preset: String, ag
                 authType = token {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
                     token = "%GITHUB_CARBON_PAT%"
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -181,7 +192,11 @@ class CarbonBuildMacOS(buildName: String, configType: String, preset: String, ag
                 authType = personalToken {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     token = "%GITHUB_TEAMCITY_TOKEN%"
+=======
+                    token = "%GITHUB_CARBON_PAT%"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
                     token = "%GITHUB_CARBON_PAT%"
 >>>>>>> template/carbonengine/pathfinder-updates
