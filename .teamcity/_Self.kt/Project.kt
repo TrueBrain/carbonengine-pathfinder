@@ -1,8 +1,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
 >>>>>>> template/carbonengine/pathfinder-updates
 =======
@@ -22,7 +25,11 @@ object Project : Project({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-pathfinder"
+=======
+    description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-template"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
     description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-template"
 >>>>>>> template/carbonengine/pathfinder-updates
