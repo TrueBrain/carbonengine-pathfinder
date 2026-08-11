@@ -4,8 +4,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Copyright © 2025 CCP ehf.
 
+=======
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
 >>>>>>> template/carbonengine/pathfinder-updates
 =======
@@ -34,7 +37,11 @@ object Project : Project({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-pathfinder"
+=======
+    description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-template"
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
     description = "Build / Publish pipeline for https://github.com/ccpgames/carbon-template"
 >>>>>>> template/carbonengine/pathfinder-updates
@@ -58,7 +65,11 @@ object Project : Project({
         /* before changing carbon_ref, make sure to disable automatic settings synchronization on teamcity */
         param("carbon_ref", "refs/heads/main")
 <<<<<<< HEAD
+<<<<<<< HEAD
         param("carbon-pipeline-tools-ref", "refs/heads/main")
+=======
+        param("carbon-pipeline-tools-ref", "refs/tags/v0.1.0")
+>>>>>>> template/carbonengine/pathfinder-updates
 =======
         param("carbon-pipeline-tools-ref", "refs/tags/v0.1.0")
 >>>>>>> template/carbonengine/pathfinder-updates
